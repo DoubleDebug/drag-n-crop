@@ -1,12 +1,8 @@
-// See https://kit.svelte.dev/docs/types#app
-// for information about these interfaces
-declare global {
-	namespace App {
-		// interface Error {}
-		// interface Locals {}
-		// interface PageData {}
-		// interface Platform {}
-	}
-}
-
-export {};
+type AppStage =
+  | 'ready-to-upload'
+  | 'uploading'
+  | 'failed-to-upload'
+  | 'ready-to-crop'
+  | 'cropping'
+  | 'failed-to-crop'
+  | 'success';
