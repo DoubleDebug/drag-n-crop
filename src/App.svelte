@@ -1,8 +1,10 @@
 <script lang="ts">
+  import CropArea from '$lib/components/CropArea.svelte';
   import Dropzone from '$lib/components/Dropzone.svelte';
   import Heading from '$lib/components/Heading.svelte';
+  import ProgressBar from '$lib/components/ProgressBar.svelte';
   import { steps } from '$lib/components/steps';
-  import { stage } from './stores/global';
+  import { stage, stepNumber } from './stores/state';
   import { Steps } from 'svelte-steps';
 </script>
 
@@ -11,8 +13,16 @@
     <Heading />
     <p>Stage is: {$stage}</p>
     <div class="flex">
-      <Steps vertical {steps} primary="var(--orange)" />
-      <Dropzone />
+      <Steps vertical {steps} current={$stepNumber} primary="var(--orange)" />
+      {#if $stage === 'ready-to-upload'}
+        <Dropzone />
+      {/if}
+      {#if $stage === 'uploading'}
+        <ProgressBar />
+      {/if}
+      {#if $stage === 'ready-to-crop'}
+        <CropArea />
+      {/if}
     </div>
   </div>
 </div>

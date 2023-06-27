@@ -1,22 +1,44 @@
 <script lang="ts">
   import UploadIcon from '$lib/icons/UploadIcon.svelte';
+  import { FirebaseApi } from '$lib/utils/firebase';
   import { Dropzone } from 'flowbite-svelte';
+  import { imageUrl, stage, uploadPercentage } from '../../stores/state';
 
   let isDragOver = false;
+  $: className = isDragOver
+    ? 'bg-gray-100 dark:border-gray-500 dark:bg-gray-600'
+    : '';
 
-  const handleDropFile = (event: any) => {
+  const handleNewFile = (event: any) => {
     event.preventDefault();
-    const files = event.dataTransfer?.files;
-    if (files.length > 0) {
-      const fileName = files[0].name;
-      alert('You dropped ' + fileName);
-    }
+    stage.set('uploading');
+
+    const files = event.target?.files;
+    const firstFile = files[0];
+
+    FirebaseApi.uploadFile({
+      file: firstFile,
+      isImage: true,
+      onStateChange: (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        const progressFormatted = Math.round(progress).toString();
+        uploadPercentage.set(progressFormatted);
+      },
+      onSuccess: (url) => {
+        imageUrl.set(url);
+        stage.set('ready-to-crop');
+      },
+      onError: () => {
+        stage.set('failed-to-upload');
+      },
+    });
   };
 </script>
 
 <Dropzone
   on:drop={(e) => e.preventDefault()}
-  on:drop={handleDropFile}
+  on:change={handleNewFile}
   on:dragover={(e) => {
     e.preventDefault();
     isDragOver = true;
@@ -25,7 +47,7 @@
     e.preventDefault();
     isDragOver = false;
   }}
-  class={isDragOver ? 'bg-gray-100 dark:border-gray-500 dark:bg-gray-600' : ''}
+  class={className}
 >
   <div class="grid text-center">
     <div class="text-5xl">
