@@ -4,7 +4,6 @@ import {
   getStorage,
   ref,
   uploadBytesResumable,
-  type UploadTask,
 } from 'firebase/storage';
 import { FileApi } from './file';
 import type { UploadOptions } from '../../app';
@@ -51,5 +50,7 @@ export namespace FirebaseApi {
         }
       }
     );
+
+    return storagePath;
   }
 }

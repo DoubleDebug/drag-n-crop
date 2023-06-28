@@ -3,4 +3,4 @@
   import BsUpload from 'svelte-icons-pack/bs/BsUpload';
 </script>
 
-<Icon src={BsUpload} />
+<Icon src={BsUpload} className="inline-block" />

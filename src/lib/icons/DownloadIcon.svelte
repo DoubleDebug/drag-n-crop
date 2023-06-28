@@ -3,4 +3,4 @@
   import BsDownload from 'svelte-icons-pack/bs/BsDownload';
 </script>
 
-<Icon src={BsDownload} />
+<Icon src={BsDownload} color="black" />

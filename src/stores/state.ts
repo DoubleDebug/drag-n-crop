@@ -3,8 +3,11 @@ import type { AppStage } from '../app';
 
 // application state
 export const stage = writable<AppStage>('ready-to-upload');
-export const imageUrl = writable<string | null>(null);
+export const isImage = writable<boolean>(true);
+export const fileUrl = writable<string | null>(null);
+export const storagePath = writable<string | null>(null);
 export const uploadPercentage = writable<string>('0');
+export const jcrop = writable<any>(null);
 
 // derived state
 export const stepNumber = derived(stage, ($stage) => {

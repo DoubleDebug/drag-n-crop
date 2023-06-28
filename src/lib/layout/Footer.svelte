@@ -2,7 +2,9 @@
   import { FooterCopyright, FooterIcon } from 'flowbite-svelte';
 </script>
 
-<div class="sm:flex sm:items-center sm:justify-between mx-auto container">
+<div
+  class="flex sm:items-center sm:justify-between mx-auto mt-20 mb-5 container"
+>
   <FooterCopyright href="/" by="Drag n crop" />
   <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
     <FooterIcon href="/" class="text-gray-400 hover:text-gray-900">

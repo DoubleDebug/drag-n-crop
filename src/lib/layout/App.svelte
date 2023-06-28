@@ -3,22 +3,20 @@
   import Dropzone from '$lib/components/Dropzone.svelte';
   import Heading from '$lib/components/Heading.svelte';
   import ProgressBar from '$lib/components/ProgressBar.svelte';
-  import { steps } from '$lib/components/steps';
-  import { stage, stepNumber } from './stores/state';
-  import { Steps } from 'svelte-steps';
+  import Stepper from '$lib/components/Stepper.svelte';
+  import { stage, uploadPercentage } from '../../stores/state';
 </script>
 
-<div class="flex justify-center mt-24 h-[80vh]">
-  <div class="grid text-center h-min w-[800px]">
+<div class="flex justify-center mt-24">
+  <div class="grid gap-20 text-center h-min w-[1000px]">
     <Heading />
-    <p>Stage is: {$stage}</p>
-    <div class="flex">
-      <Steps vertical {steps} current={$stepNumber} primary="var(--orange)" />
+    <div class="flex items-center gap-10">
+      <Stepper />
       {#if $stage === 'ready-to-upload'}
         <Dropzone />
       {/if}
       {#if $stage === 'uploading'}
-        <ProgressBar />
+        <ProgressBar percentage={$uploadPercentage} />
       {/if}
       {#if $stage === 'ready-to-crop'}
         <CropArea />

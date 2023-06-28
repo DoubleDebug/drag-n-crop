@@ -1,6 +1,9 @@
 <script>
   import { Progressbar } from 'flowbite-svelte';
-  import { uploadPercentage } from '../../stores/state';
+
+  export let percentage = '0';
 </script>
 
-<Progressbar progress={$uploadPercentage} size="h-4" labelInside />
+<div class="w-full h-full grid place-items-center">
+  <Progressbar progress={percentage} size="h-4" labelInside />
+</div>
