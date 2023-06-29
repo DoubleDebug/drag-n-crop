@@ -1,11 +1,11 @@
 <script lang="ts">
   import UploadIcon from '$lib/icons/UploadIcon.svelte';
-  import { FirebaseApi } from '$lib/api/firebase';
+  import { FirebaseStorageApi } from '$lib/api/firebase-storage';
   import { Dropzone } from 'flowbite-svelte';
   import {
-    fileUrl,
+    rawFileUrl,
     stage,
-    storagePath,
+    rawStoragePath,
     uploadPercentage,
   } from '../../stores/state';
 
@@ -18,10 +18,15 @@
     event.preventDefault();
     stage.set('uploading');
 
-    const files = event.target?.files;
+    const files = event.target?.files || event.dataTransfer?.files;
+    if (!files || !files.length || files.length === 0) {
+      console.log('TODO: no files selected');
+      stage.set('failed-to-upload');
+      return;
+    }
     const firstFile = files[0];
 
-    const path = FirebaseApi.uploadFile({
+    const path = FirebaseStorageApi.uploadFile({
       file: firstFile,
       isImage: true,
       onStateChange: (snapshot) => {
@@ -31,20 +36,21 @@
         uploadPercentage.set(progressFormatted);
       },
       onSuccess: (url) => {
-        fileUrl.set(url);
+        rawFileUrl.set(url);
         stage.set('ready-to-crop');
       },
       onError: () => {
         stage.set('failed-to-upload');
       },
     });
-    storagePath.set(path);
+    rawStoragePath.set(path);
   };
 </script>
 
 <Dropzone
   on:drop={(e) => e.preventDefault()}
   on:change={handleNewFile}
+  on:drop={handleNewFile}
   on:dragover={(e) => {
     e.preventDefault();
     isDragOver = true;

@@ -1,20 +1,26 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onDestroy, onMount } from 'svelte';
   import {
-    fileUrl,
+    rawFileUrl,
     isImage,
     jcrop,
     stage,
-    storagePath,
+    rawStoragePath,
+    timeElapsed,
+    croppedFilePath,
+    croppedStoragePath,
   } from '../../stores/state';
   import { Button, P, Spinner } from 'flowbite-svelte';
   import { CropApi } from '$lib/api/crop';
   import type { CropOptions } from '../../app';
+  import { FirebaseStorageApi } from '$lib/api/firebase-storage';
 
   const ID_CROP_IMAGE = 'crop-image';
+  let timeoutId: any;
+  let intervalId: any;
 
   onMount(() => {
-    setTimeout(() => {
+    timeoutId = setTimeout(() => {
       const cropper = Jcrop.attach(ID_CROP_IMAGE);
       jcrop.set(cropper);
 
@@ -30,26 +36,42 @@
       cropper.newWidget(Jcrop.Rect.create(x, y, w, h));
     }, 500);
   });
+  onDestroy(() => {
+    clearTimeout(timeoutId);
+    clearInterval(intervalId);
+  });
 
   const handleCrop = async () => {
-    if (!$storagePath) {
-      console.log('No selected image.');
+    console.log('TODO: Case when selecting an area that includes the border.');
+
+    if (!$rawStoragePath) {
+      console.log('TODO: No selected image.');
       return;
     }
 
+    // start cropping
     stage.set('cropping');
+    intervalId = setInterval(() => timeElapsed.update((num) => num + 1), 1);
 
+    // calculate real coordinates
+    const imageElement = document.getElementById(
+      ID_CROP_IMAGE
+    ) as HTMLImageElement;
+    const widthPercentage =
+      imageElement.getBoundingClientRect().width / imageElement.naturalWidth;
+    const heightPercentage =
+      imageElement.getBoundingClientRect().height / imageElement.naturalHeight;
+    const width = Math.round($jcrop.active.pos.w / widthPercentage);
+    const height = Math.round($jcrop.active.pos.h / heightPercentage);
+    const x = Math.round($jcrop.active.pos.x / widthPercentage);
+    const y = Math.round($jcrop.active.pos.y / heightPercentage);
+
+    // prepare data
     const data: CropOptions = {
-      storage_file_path: $storagePath,
+      storage_file_path: $rawStoragePath,
       dimensions: {
-        top_left_point: {
-          x: $jcrop.active.pos.x,
-          y: $jcrop.active.pos.y,
-        },
-        size: {
-          width: $jcrop.active.pos.w,
-          height: $jcrop.active.pos.h,
-        },
+        top_left_point: { x, y },
+        size: { width, height },
       },
     };
 
@@ -60,22 +82,26 @@
       response = await CropApi.cropVideo(data);
     }
 
+    clearInterval(intervalId);
     if (response.success) {
-      stage.set('success');
-      console.log('successful crop', response);
+      stage.set('ready-to-download');
+      croppedStoragePath.set(response.data);
+      FirebaseStorageApi.downloadFile(response.data).then((url) => {
+        croppedFilePath.set(url);
+      });
     } else {
       stage.set('failed-to-crop');
-      console.log('failed to crop', response);
+      console.log('TODO: failed to crop', response);
     }
   };
 </script>
 
 <div class="grid gap-5">
   <div class="flex justify-center w-[800px] h-[600px] bshadow">
-    {#if fileUrl}
+    {#if rawFileUrl}
       <img
         id={ID_CROP_IMAGE}
-        src={$fileUrl}
+        src={$rawFileUrl}
         alt="Cropping resource"
         class="h-full aspect-auto"
       />
@@ -88,9 +114,9 @@
       {/if}
     </P>
     <div class="btn-container">
-      <Button disabled={$stage === 'cropping'} color="alternative"
-        >Cancel</Button
-      >
+      <Button disabled={$stage === 'cropping'} color="alternative">
+        Cancel
+      </Button>
       <Button disabled={$stage === 'cropping'} on:click={handleCrop}>
         {#if $stage === 'cropping'}
           <Spinner />

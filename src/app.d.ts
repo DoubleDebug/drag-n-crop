@@ -8,7 +8,8 @@ type AppStage =
   | 'ready-to-crop'
   | 'cropping'
   | 'failed-to-crop'
-  | 'success';
+  | 'ready-to-download'
+  | 'downloaded';
 
 type UploadOptions = {
   file: File;

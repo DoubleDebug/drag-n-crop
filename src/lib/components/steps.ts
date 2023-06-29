@@ -13,10 +13,6 @@ export const steps = [
     icon: SelectIcon,
   },
   {
-    text: 'Wait for result',
-    icon: LoadingIcon,
-  },
-  {
     text: 'Download file',
     icon: DownloadIcon,
   },

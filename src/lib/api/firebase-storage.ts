@@ -20,7 +20,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const storage = getStorage(app);
 
-export namespace FirebaseApi {
+export namespace FirebaseStorageApi {
   const STORAGE_PATH_RAW = 'raw';
   const STORAGE_PATH_CROPPED = 'cropped';
 
@@ -52,5 +52,11 @@ export namespace FirebaseApi {
     );
 
     return storagePath;
+  }
+
+  export async function downloadFile(storagePath: string) {
+    const storageRef = ref(storage, storagePath);
+    const url = await getDownloadURL(storageRef);
+    return url;
   }
 }
