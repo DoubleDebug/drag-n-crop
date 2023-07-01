@@ -5,10 +5,12 @@
 <div class="grid">
   <Heading tag="h1" class="mb-4">
     <span
-      class="text-6xl lg:text-9xl whitespace-nowrap font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600"
+      class="text-7xl md:text-8xl xl:text-9xl whitespace-nowrap font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600"
     >
-      Drag and crop
+      Drag 'n' crop
     </span>
   </Heading>
-  <Heading tag="h2" class="text-5xl">your images and videos!</Heading>
+  <Heading tag="h2" class="text-3xl md:text-4xl xl:text-5xl">
+    your images and videos!
+  </Heading>
 </div>

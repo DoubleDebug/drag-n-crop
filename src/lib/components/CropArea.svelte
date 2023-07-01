@@ -22,6 +22,7 @@
   onMount(() => {
     timeoutId = setTimeout(() => {
       const cropper = Jcrop.attach(ID_CROP_IMAGE);
+      cropper.addClass('jcrop-ux-no-outline');
       jcrop.set(cropper);
 
       const imageElement = document.getElementById(ID_CROP_IMAGE);
@@ -61,10 +62,17 @@
       imageElement.getBoundingClientRect().width / imageElement.naturalWidth;
     const heightPercentage =
       imageElement.getBoundingClientRect().height / imageElement.naturalHeight;
-    const width = Math.round($jcrop.active.pos.w / widthPercentage);
-    const height = Math.round($jcrop.active.pos.h / heightPercentage);
+    let width = Math.round($jcrop.active.pos.w / widthPercentage);
+    let height = Math.round($jcrop.active.pos.h / heightPercentage);
     const x = Math.round($jcrop.active.pos.x / widthPercentage);
     const y = Math.round($jcrop.active.pos.y / heightPercentage);
+
+    if (width + x > imageElement.naturalWidth) {
+      width = imageElement.naturalWidth - x;
+    }
+    if (height + y > imageElement.naturalHeight) {
+      height = imageElement.naturalHeight - y;
+    }
 
     // prepare data
     const data: CropOptions = {

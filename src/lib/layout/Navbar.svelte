@@ -1,8 +1,8 @@
 <script>
-  import { Navbar, NavBrand, NavHamburger, DarkMode } from 'flowbite-svelte';
+  import { Navbar, NavBrand, DarkMode } from 'flowbite-svelte';
 </script>
 
-<Navbar let:toggle>
+<Navbar>
   <NavBrand href="/">
     <div class="flex gap-2">
       <span class="logo logo-black dark:logo-white" />
@@ -13,7 +13,6 @@
       </span>
     </div>
   </NavBrand>
-  <NavHamburger on:click={toggle} />
   <DarkMode />
 </Navbar>
 

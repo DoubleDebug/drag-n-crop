@@ -11,6 +11,8 @@ export const croppedStoragePath = writable<string | null>(null);
 export const uploadPercentage = writable<string>('0');
 export const jcrop = writable<any>(null);
 export const timeElapsed = writable<number>(0); // in milliseconds
+export const screenWidth = writable<number>(1920);
+export const screenHeight = writable<number>(1024);
 
 // derived state
 export const stepNumber = derived(stage, ($stage) => {

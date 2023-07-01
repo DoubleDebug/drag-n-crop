@@ -59,9 +59,9 @@
     e.preventDefault();
     isDragOver = false;
   }}
-  class={`h-full ${className}`}
+  class={`dropzone ${className}`}
 >
-  <div class="grid text-center">
+  <div class="flex justify-center align-center flex-col h-full">
     <div class="text-5xl mb-5">
       <UploadIcon />
     </div>
@@ -76,3 +76,21 @@
     </p> -->
   </div>
 </Dropzone>
+
+<style>
+  :global(.dropzone) {
+    height: 100% !important;
+    min-height: 320px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    :global(.dropzone) {
+      justify-self: center;
+    }
+  }
+
+  :global(.dropzone) > :global(label) {
+    width: 100%;
+    height: 100%;
+  }
+</style>

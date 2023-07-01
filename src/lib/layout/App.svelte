@@ -8,10 +8,10 @@
   import { stage, uploadPercentage } from '../../stores/state';
 </script>
 
-<div class="flex justify-center mt-24">
-  <div class="grid gap-20 text-center h-min w-[1000px]">
+<div class="flex justify-center mt-16 p-8">
+  <div class="grid gap-20 text-center w-full max-w-[1024px]">
     <Heading />
-    <div class="flex items-center gap-10">
+    <div class="grid md:flex items-center gap-10">
       <Stepper />
       {#if $stage === 'ready-to-upload'}
         <Dropzone />
