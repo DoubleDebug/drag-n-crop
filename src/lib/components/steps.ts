@@ -1,6 +1,5 @@
 import UploadIcon from '$lib/icons/UploadIcon.svelte';
 import SelectIcon from '$lib/icons/SelectIcon.svelte';
-import LoadingIcon from '$lib/icons/LoadingIcon.svelte';
 import DownloadIcon from '$lib/icons/DownloadIcon.svelte';
 
 export const steps = [
@@ -13,7 +12,7 @@ export const steps = [
     icon: SelectIcon,
   },
   {
-    text: 'Download file',
+    text: 'Download result',
     icon: DownloadIcon,
   },
 ];

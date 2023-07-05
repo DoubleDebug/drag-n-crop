@@ -36,9 +36,10 @@
       reasonInvalid.set(validation.reason);
       return;
     }
-    isImage.set(validation.isImage);
 
+    isImage.set(validation.isImage);
     stage.set('uploading');
+
     const path = FirebaseStorageApi.uploadFile({
       file: firstFile,
       isImage: $isImage,

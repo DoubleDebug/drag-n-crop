@@ -7,6 +7,10 @@
     --orange: #eb4f27;
   }
 
+  .navbar {
+    background: #eaedf2;
+  }
+
   .logo-white {
     content: url('favicon-white.png') !important;
   }
@@ -28,4 +32,29 @@
 
 .steps__label {
   white-space: nowrap;
+}
+
+.steps-container {
+  justify-self: center;
+}
+
+.crop-fail-accordion > div > div {
+  min-height: 200px;
+}
+
+@media only screen and (max-width: 768px) {
+  .steps-container {
+    width: 100%;
+    max-width: 500px;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .steps-container {
+    max-width: 400px;
+  }
+
+  .steps__label > div {
+    font-size: 1rem;
+  }
 }

@@ -11,6 +11,7 @@ export const croppedStoragePath = writable<string | null>(null);
 export const uploadPercentage = writable<string>('0');
 export const reasonInvalid = writable<FileInvalidReason | null>(null);
 export const reasonUploadFail = writable<string | null>(null);
+export const reasonCropFail = writable<string | null>(null);
 export const jcrop = writable<any>(null);
 export const timeElapsed = writable<number>(0); // in milliseconds
 export const screenWidth = writable<number>(1920);

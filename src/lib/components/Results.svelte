@@ -5,6 +5,13 @@
     timeElapsed,
     croppedStoragePath,
     stage,
+    isImage,
+    rawFileUrl,
+    rawStoragePath,
+    uploadPercentage,
+    reasonInvalid,
+    reasonUploadFail,
+    jcrop,
   } from '../../stores/state';
 
   const handleDownload = async () => {
@@ -25,23 +32,38 @@
     link.click();
     stage.set('downloaded');
   };
+
+  const handleReset = () => {
+    stage.set('ready-to-upload');
+    isImage.set(true);
+    rawFileUrl.set(null);
+    croppedFilePath.set(null);
+    rawStoragePath.set(null);
+    croppedStoragePath.set(null);
+    uploadPercentage.set('0');
+    reasonInvalid.set(null);
+    reasonUploadFail.set(null);
+    jcrop.set(null);
+    timeElapsed.set(0);
+  };
 </script>
 
-<div class="grid layout">
-  <img
-    src={$croppedFilePath}
-    alt="Cropped resource"
-    class="h-full aspect-auto"
-  />
+<div class="grid grid-cols-2 gap-5">
+  {#if $isImage}
+    <img
+      src={$croppedFilePath}
+      alt="Cropped resource"
+      class="h-full aspect-auto"
+    />
+  {:else}
+    <video src={$croppedFilePath} class="h-full aspect-auto" controls>
+      <track kind="captions" />
+    </video>
+  {/if}
   <div class="grid gap-5">
     <P size="2xl">Results:</P>
     <P size="lg">Time elapsed: {$timeElapsed}</P>
     <Button on:click={handleDownload}>Download</Button>
+    <Button on:click={handleReset} color="alternative">Reset</Button>
   </div>
 </div>
-
-<style>
-  .layout {
-    grid-template-columns: 50% 50%;
-  }
-</style>

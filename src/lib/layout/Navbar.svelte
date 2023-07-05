@@ -2,7 +2,7 @@
   import { Navbar, NavBrand, DarkMode } from 'flowbite-svelte';
 </script>
 
-<Navbar>
+<Navbar class="navbar">
   <NavBrand href="/">
     <div class="flex gap-2">
       <span class="logo logo-black dark:logo-white" />

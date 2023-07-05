@@ -22,26 +22,3 @@
     clickable={false}
   />
 {/if}
-
-<style>
-  :global(.steps-container) {
-    justify-self: center;
-  }
-
-  @media only screen and (max-width: 768px) {
-    :global(.steps-container) {
-      width: 100%;
-      max-width: 500px;
-    }
-  }
-
-  @media only screen and (max-width: 400px) {
-    :global(.steps-container) {
-      max-width: 400px;
-    }
-
-    :global(.steps__label) > :global(div) {
-      font-size: 1rem;
-    }
-  }
-</style>
