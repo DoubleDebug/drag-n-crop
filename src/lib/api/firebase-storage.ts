@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import {
+  deleteObject,
   getDownloadURL,
   getStorage,
   ref,
@@ -58,5 +59,10 @@ export namespace FirebaseStorageApi {
     const storageRef = ref(storage, storagePath);
     const url = await getDownloadURL(storageRef);
     return url;
+  }
+
+  export async function deleteFile(storagePath: string) {
+    const storageRef = ref(storage, storagePath);
+    return await deleteObject(storageRef);
   }
 }
