@@ -1,3 +1,4 @@
+import axios from 'axios';
 import type { FileValidationResult } from '../../app';
 
 export namespace FileApi {
@@ -95,5 +96,20 @@ export namespace FileApi {
       isImage,
       reason: null,
     };
+  }
+
+  /**
+   * Gets file size from URL by reading the content length.
+   * @returns file size in megabytes
+   * @example 14.25
+   */
+  export async function getFileSizeFromUrl(
+    fileUrl: string
+  ): Promise<string | null> {
+    const response = await axios.get(fileUrl);
+    const bytes = response.headers['content-length']?.toString();
+    if (!bytes) return null;
+
+    return (Number(bytes) / (1024 * 1024)).toFixed(2);
   }
 }

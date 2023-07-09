@@ -55,7 +55,7 @@ export namespace FirebaseStorageApi {
     return storagePath;
   }
 
-  export async function downloadFile(storagePath: string) {
+  export async function getDownloadUrl(storagePath: string) {
     const storageRef = ref(storage, storagePath);
     const url = await getDownloadURL(storageRef);
     return url;

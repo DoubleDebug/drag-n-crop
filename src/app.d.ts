@@ -9,6 +9,7 @@ type AppStage =
   | 'cropping'
   | 'failed-to-crop'
   | 'ready-to-download'
+  | 'failed-to-download'
   | 'downloaded';
 
 type UploadOptions = {

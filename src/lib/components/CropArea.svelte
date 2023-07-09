@@ -6,22 +6,23 @@
     jcrop,
     stage,
     rawStoragePath,
-    timeElapsed,
     croppedFilePath,
     croppedStoragePath,
     reasonCropFail,
+    croppedFileSize,
   } from '../../stores/state';
   import { Button, Checkbox, P, Spinner } from 'flowbite-svelte';
   import { CropApi } from '$lib/api/crop';
   import type { CropOptions } from '../../app';
   import { FirebaseStorageApi } from '$lib/api/firebase-storage';
   import { resetState } from '../../utils/reset';
+  import { FileApi } from '$lib/api/file';
+  import LoadingLabel from './LoadingLabel.svelte';
 
   const CONTAINER_HEIGHT = 600;
   const ID_CROP_AREA = 'crop-area';
   const ID_VIDEO = 'video-element';
   let timeoutId: any;
-  let intervalId: any;
   let showControls = true;
 
   onMount(() => {
@@ -84,18 +85,17 @@
   });
   onDestroy(() => {
     clearTimeout(timeoutId);
-    clearInterval(intervalId);
   });
 
   const handleCrop = async () => {
     if (!$rawStoragePath) {
-      console.log('TODO: No selected image.');
+      stage.set('failed-to-crop');
+      reasonCropFail.set("The file wasn't uploaded correctly.");
       return;
     }
 
     // start cropping
     stage.set('cropping');
-    intervalId = setInterval(() => timeElapsed.update((num) => num + 1), 1);
 
     // calculate real coordinates
     let mediaElement, naturalWidth, naturalHeight;
@@ -150,16 +150,24 @@
       });
     }
 
-    clearInterval(intervalId);
     if (response && response.success) {
       stage.set('ready-to-download');
       croppedStoragePath.set(response.data);
-      FirebaseStorageApi.downloadFile(response.data).then((url) => {
+      FirebaseStorageApi.getDownloadUrl(response.data).then((url) => {
         croppedFilePath.set(url);
+        FileApi.getFileSizeFromUrl(url).then((fileSize) => {
+          croppedFileSize.set(fileSize);
+        });
       });
     } else {
       stage.set('failed-to-crop');
-      console.log('TODO: failed to crop', response);
+      if (response) {
+        reasonCropFail.set(response.message);
+      } else {
+        reasonCropFail.set(
+          'There was an error while connecting to the server.'
+        );
+      }
     }
   };
 
@@ -213,7 +221,9 @@
   <div class="flex items-center justify-between">
     <P size="lg">
       {#if $stage === 'cropping'}
-        Your {$isImage ? 'image' : 'video'} is being cropped...
+        <LoadingLabel
+          text={`Your ${$isImage ? 'image' : 'video'} is being cropped`}
+        />
       {:else if !$isImage}
         <Checkbox checked={showControls} on:change={toggleControls}>
           Show controls

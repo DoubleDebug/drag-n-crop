@@ -12,8 +12,11 @@ export const uploadPercentage = writable<string>('0');
 export const reasonInvalid = writable<FileInvalidReason | null>(null);
 export const reasonUploadFail = writable<string | null>(null);
 export const reasonCropFail = writable<string | null>(null);
+export const reasonDownloadFail = writable<string | null>(null);
 export const jcrop = writable<any>(null);
-export const timeElapsed = writable<number>(0); // in milliseconds
+export const timeElapsed = writable<number>(0); // in seconds
+export const originalFileSize = writable<string | null>(null); // in megabytes
+export const croppedFileSize = writable<string | null>(null); // in megabytes
 export const screenWidth = writable<number>(1920);
 export const screenHeight = writable<number>(1024);
 

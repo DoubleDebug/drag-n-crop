@@ -10,6 +10,7 @@
     isImage,
     reasonInvalid,
     reasonUploadFail,
+    originalFileSize,
   } from '../../stores/state';
   import { FileApi } from '$lib/api/file';
 
@@ -23,8 +24,8 @@
 
     const files = event.target?.files || event.dataTransfer?.files;
     if (!files || !files.length || files.length === 0) {
-      console.log('TODO: no files selected');
       stage.set('failed-to-upload');
+      reasonUploadFail.set(`You didn't select any files.`);
       return;
     }
     const firstFile = files[0];
@@ -39,6 +40,8 @@
 
     isImage.set(validation.isImage);
     stage.set('uploading');
+    const fileSize = (firstFile as File).size / (1024 * 1024);
+    originalFileSize.set(fileSize.toFixed(2));
 
     const path = FirebaseStorageApi.uploadFile({
       file: firstFile,
@@ -83,12 +86,6 @@
     <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
       <span class="font-semibold">Click to upload</span> or drag and drop
     </p>
-    <!-- <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">
-      Supported image formats: jpg, jpeg, png, gif, bmp, webp, svg (MAX 1GB).
-    </p>
-    <p class="text-xs text-gray-500 dark:text-gray-400">
-      Supported video formats: mp4, mkv, flv, avi, mov, wmv, webm (MAX 100MB).
-    </p> -->
   </div>
 </Dropzone>
 

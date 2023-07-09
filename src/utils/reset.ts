@@ -11,6 +11,10 @@ import {
   reasonUploadFail,
   jcrop,
   timeElapsed,
+  reasonCropFail,
+  reasonDownloadFail,
+  originalFileSize,
+  croppedFileSize,
 } from '../stores/state';
 
 export function resetState() {
@@ -23,6 +27,10 @@ export function resetState() {
   uploadPercentage.set('0');
   reasonInvalid.set(null);
   reasonUploadFail.set(null);
+  reasonCropFail.set(null);
+  reasonDownloadFail.set(null);
   jcrop.set(null);
   timeElapsed.set(0);
+  originalFileSize.set(null);
+  croppedFileSize.set(null);
 }

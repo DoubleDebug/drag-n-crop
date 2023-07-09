@@ -2,6 +2,7 @@
   import CropArea from '$lib/components/CropArea.svelte';
   import Dropzone from '$lib/components/Dropzone.svelte';
   import FailedCrop from '$lib/components/FailedCrop.svelte';
+  import FailedDownload from '$lib/components/FailedDownload.svelte';
   import FailedUpload from '$lib/components/FailedToUpload.svelte';
   import Heading from '$lib/components/Heading.svelte';
   import ProgressBar from '$lib/components/ProgressBar.svelte';
@@ -32,6 +33,9 @@
       {/if}
       {#if $stage === 'ready-to-download' || $stage === 'downloaded'}
         <Results />
+      {/if}
+      {#if $stage === 'failed-to-download'}
+        <FailedDownload />
       {/if}
     </div>
   </div>
