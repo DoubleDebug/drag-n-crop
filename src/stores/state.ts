@@ -1,4 +1,6 @@
 import { derived, writable } from 'svelte/store';
+import { tweened } from 'svelte/motion';
+import { cubicOut } from 'svelte/easing';
 import type { AppStage, FileInvalidReason } from '../app';
 
 // application state
@@ -8,7 +10,10 @@ export const rawFileUrl = writable<string | null>(null);
 export const croppedFilePath = writable<string | null>(null);
 export const rawStoragePath = writable<string | null>(null);
 export const croppedStoragePath = writable<string | null>(null);
-export const uploadPercentage = writable<string>('0');
+export const uploadPercentage = tweened<number>(0, {
+  duration: 1000,
+  easing: cubicOut,
+});
 export const reasonInvalid = writable<FileInvalidReason | null>(null);
 export const reasonUploadFail = writable<string | null>(null);
 export const reasonCropFail = writable<string | null>(null);

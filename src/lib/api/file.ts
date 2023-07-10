@@ -112,4 +112,20 @@ export namespace FileApi {
 
     return (Number(bytes) / (1024 * 1024)).toFixed(2);
   }
+
+  /**
+   * Parses the file name from the storage path.
+   * If unsuccessful, it generates a new one in the form of a UUID.
+   * @returns parsed file name.
+   */
+  export function getFilenameFromStoragePath(storagePath: string): string {
+    const extension = getExtension(storagePath);
+    const regexResult = /(.+)\/(.+)\/(.+)/.exec(storagePath);
+    if (!regexResult || regexResult.length !== 4) {
+      const filename = `${crypto.randomUUID()}.${extension}`;
+      return filename;
+    }
+
+    return regexResult[3];
+  }
 }

@@ -1,10 +1,11 @@
+import { FileApi } from '$lib/api/file';
 import { stage, reasonDownloadFail } from '../stores/state';
 
 export async function handleDownload(
   filePath: string | null,
   storagePath: string | null
 ) {
-  if (!filePath) {
+  if (!filePath || !storagePath) {
     stage.set('failed-to-download');
     reasonDownloadFail.set(
       'There was an issue while storing the cropped image or video.'
@@ -24,9 +25,8 @@ export async function handleDownload(
   const link = document.createElement('a');
   link.href = url;
 
-  console.log('TODO: refactor');
-  const fileName = /(.+)\/(.+)\/(.+)/.exec(storagePath || '');
-  link.download = fileName ? fileName[3] : `${crypto.randomUUID()}.jpg`;
+  const fileName = FileApi.getFilenameFromStoragePath(storagePath);
+  link.download = fileName;
 
   link.click();
   stage.set('downloaded');

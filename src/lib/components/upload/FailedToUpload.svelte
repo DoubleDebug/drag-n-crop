@@ -8,7 +8,11 @@
     Li,
     List,
   } from 'flowbite-svelte';
-  import { reasonInvalid, reasonUploadFail, stage } from '../../stores/state';
+  import {
+    reasonInvalid,
+    reasonUploadFail,
+    stage,
+  } from '../../../stores/state';
   import { FileApi } from '$lib/api/file';
   import InfoIcon from '$lib/icons/InfoIcon.svelte';
 

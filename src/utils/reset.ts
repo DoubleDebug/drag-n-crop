@@ -24,7 +24,7 @@ export function resetState() {
   croppedFilePath.set(null);
   rawStoragePath.set(null);
   croppedStoragePath.set(null);
-  uploadPercentage.set('0');
+  uploadPercentage.set(0);
   reasonInvalid.set(null);
   reasonUploadFail.set(null);
   reasonCropFail.set(null);

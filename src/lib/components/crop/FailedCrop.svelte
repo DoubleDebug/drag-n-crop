@@ -1,6 +1,6 @@
 <script>
   import { Accordion, AccordionItem, Button, Card } from 'flowbite-svelte';
-  import { isImage, reasonCropFail, stage } from '../../stores/state';
+  import { isImage, reasonCropFail, stage } from '../../../stores/state';
   import InfoIcon from '$lib/icons/InfoIcon.svelte';
 </script>
 

@@ -1,8 +1,9 @@
 <script>
   import { Heading, Progressbar } from 'flowbite-svelte';
-  import LoadingLabel from './LoadingLabel.svelte';
+  import LoadingLabel from '../LoadingLabel.svelte';
+  import { uploadPercentage } from '../../../stores/state';
 
-  export let percentage = '0';
+  $: percentage = Math.round($uploadPercentage).toString();
 </script>
 
 <div class="grid w-full gap-2">
@@ -13,9 +14,3 @@
     <Progressbar progress={percentage} size="h-4" labelInside />
   </div>
 </div>
-
-<style>
-  .bar :global(.text-primary-100) {
-    transition: width 1s ease;
-  }
-</style>

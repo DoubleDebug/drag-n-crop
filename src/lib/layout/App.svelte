@@ -1,14 +1,14 @@
 <script lang="ts">
-  import CropArea from '$lib/components/CropArea.svelte';
-  import Dropzone from '$lib/components/Dropzone.svelte';
-  import FailedCrop from '$lib/components/FailedCrop.svelte';
+  import CropStage from '$lib/components/crop/CropStage.svelte';
+  import UploadStage from '$lib/components/upload/UploadStage.svelte';
+  import FailedCrop from '$lib/components/crop/FailedCrop.svelte';
   import FailedDownload from '$lib/components/FailedDownload.svelte';
-  import FailedUpload from '$lib/components/FailedToUpload.svelte';
+  import FailedUpload from '$lib/components/upload/FailedToUpload.svelte';
   import Heading from '$lib/components/Heading.svelte';
-  import ProgressBar from '$lib/components/ProgressBar.svelte';
+  import UploadingProgress from '$lib/components/upload/UploadingProgress.svelte';
   import Results from '$lib/components/Results.svelte';
   import Stepper from '$lib/components/Stepper.svelte';
-  import { stage, uploadPercentage } from '../../stores/state';
+  import { stage } from '../../stores/state';
 </script>
 
 <div class="flex justify-center mt-16 p-8">
@@ -17,16 +17,16 @@
     <div class="grid md:flex items-center gap-10">
       <Stepper />
       {#if $stage === 'ready-to-upload'}
-        <Dropzone />
+        <UploadStage />
       {/if}
       {#if $stage === 'failed-to-upload'}
         <FailedUpload />
       {/if}
       {#if $stage === 'uploading'}
-        <ProgressBar percentage={$uploadPercentage} />
+        <UploadingProgress />
       {/if}
       {#if $stage === 'ready-to-crop' || $stage === 'cropping'}
-        <CropArea />
+        <CropStage />
       {/if}
       {#if $stage === 'failed-to-crop'}
         <FailedCrop />
