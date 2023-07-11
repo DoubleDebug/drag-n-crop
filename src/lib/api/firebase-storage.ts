@@ -23,7 +23,6 @@ const storage = getStorage(app);
 
 export namespace FirebaseStorageApi {
   const STORAGE_PATH_RAW = 'raw';
-  const STORAGE_PATH_CROPPED = 'cropped';
 
   function generateNewFileName(): string {
     return crypto.randomUUID();

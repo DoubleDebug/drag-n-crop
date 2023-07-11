@@ -5,5 +5,7 @@
 </script>
 
 <Navbar />
-<main class="app"><slot /></main>
+<main class="app">
+  <slot />
+</main>
 <Footer />

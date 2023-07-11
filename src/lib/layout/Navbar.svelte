@@ -1,5 +1,5 @@
 <script>
-  import { Navbar, NavBrand, DarkMode, Tooltip } from 'flowbite-svelte';
+  import { Navbar, NavBrand, DarkMode } from 'flowbite-svelte';
 </script>
 
 <Navbar class="navbar">

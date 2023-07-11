@@ -5,10 +5,10 @@
     croppedStoragePath,
     isImage,
     reasonDownloadFail,
-  } from '../../stores/state';
+  } from '../../../stores/state';
   import InfoIcon from '$lib/icons/InfoIcon.svelte';
-  import { resetState } from '../../utils/reset';
-  import { handleDownload } from '../../utils/download';
+  import { resetState } from '../../../utils/reset';
+  import { handleDownload } from '../../../utils/download';
   import { onDestroy } from 'svelte';
   import LoadingIcon from '$lib/icons/LoadingIcon.svelte';
 

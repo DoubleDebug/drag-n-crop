@@ -2,11 +2,11 @@
   import CropStage from '$lib/components/crop/CropStage.svelte';
   import UploadStage from '$lib/components/upload/UploadStage.svelte';
   import FailedCrop from '$lib/components/crop/FailedCrop.svelte';
-  import FailedDownload from '$lib/components/FailedDownload.svelte';
+  import FailedDownload from '$lib/components/download/FailedDownload.svelte';
   import FailedUpload from '$lib/components/upload/FailedToUpload.svelte';
   import Heading from '$lib/components/Heading.svelte';
   import UploadingProgress from '$lib/components/upload/UploadingProgress.svelte';
-  import Results from '$lib/components/Results.svelte';
+  import DownloadStage from '$lib/components/download/DownloadStage.svelte';
   import Stepper from '$lib/components/Stepper.svelte';
   import { stage } from '../../stores/state';
 </script>
@@ -32,7 +32,7 @@
         <FailedCrop />
       {/if}
       {#if $stage === 'ready-to-download' || $stage === 'downloaded'}
-        <Results />
+        <DownloadStage />
       {/if}
       {#if $stage === 'failed-to-download'}
         <FailedDownload />

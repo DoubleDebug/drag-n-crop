@@ -1,4 +1,3 @@
-import { FirebaseStorageApi } from '$lib/api/firebase-storage';
 import {
   stage,
   isImage,

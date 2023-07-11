@@ -44,6 +44,8 @@ export const stepNumber = derived(stage, ($stage) => {
       return 2;
     case 'downloaded':
       return 3;
+    case 'failed-to-download':
+      return 3;
     default:
       return $stage;
   }

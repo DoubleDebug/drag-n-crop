@@ -31,3 +31,12 @@ export async function handleDownload(
   link.click();
   stage.set('downloaded');
 }
+
+export function formatElapsedTime(seconds: number): string {
+  if (seconds > 60) {
+    const minutes = seconds % 60;
+    return `${minutes} minutes, ${seconds} second${seconds === 1 ? '' : 's'}`;
+  }
+
+  return `${seconds} second${seconds === 1 ? '' : 's'}`;
+}
