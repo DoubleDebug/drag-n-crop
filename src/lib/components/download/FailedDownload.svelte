@@ -55,7 +55,7 @@
           {:else if stage === 'downloading'}
             <LoadingIcon />
           {:else}
-            Failed
+            Failed ✖
           {/if}
         </Button>
         <Button

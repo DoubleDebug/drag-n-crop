@@ -3,7 +3,12 @@
   import AiOutlineLoading from 'svelte-icons-pack/ai/AiOutlineLoading';
   import { stage } from '../../stores/state';
 
-  $: spin = $stage === 'uploading';
+  $: isSpinning = $stage === 'uploading';
+  export let spin = true;
 </script>
 
-<Icon src={AiOutlineLoading} className={spin ? 'fa-spin' : ''} />
+<Icon
+  src={AiOutlineLoading}
+  className={isSpinning || spin ? 'fa-spin' : ''}
+  color="white"
+/>
