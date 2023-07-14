@@ -43,7 +43,7 @@ export namespace FileApi {
     const extension = getExtension(fileName);
     if (!extension) return false;
 
-    return validImageFormats.includes(extension);
+    return validImageFormats.includes(extension.toLowerCase());
   }
 
   /**
@@ -53,7 +53,7 @@ export namespace FileApi {
     const extension = getExtension(fileName);
     if (!extension) return false;
 
-    return validVideoFormats.includes(extension);
+    return validVideoFormats.includes(extension.toLowerCase());
   }
 
   /**
@@ -80,14 +80,14 @@ export namespace FileApi {
       return {
         isValid: false,
         isImage: true,
-        reason: 'image-too-large',
+        reason: 'file-too-large',
       };
     }
     if (isVideo && file.size > videoSizeLimit) {
       return {
         isValid: false,
         isImage: false,
-        reason: 'video-too-large',
+        reason: 'file-too-large',
       };
     }
 

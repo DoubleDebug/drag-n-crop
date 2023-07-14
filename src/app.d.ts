@@ -52,10 +52,7 @@ type FileValidationResult = {
   reason: FileInvalidReason | null;
 };
 
-type FileInvalidReason =
-  | 'invalid-file-format'
-  | 'image-too-large'
-  | 'video-too-large';
+type FileInvalidReason = 'invalid-file-format' | 'file-too-large';
 
 // JCrop
 declare global {

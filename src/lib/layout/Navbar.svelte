@@ -23,6 +23,6 @@
   }
 
   .logo-black {
-    content: url('favicon-black.png');
+    content: url('/public/favicon-black.png');
   }
 </style>

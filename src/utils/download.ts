@@ -34,8 +34,9 @@ export async function handleDownload(
 
 export function formatElapsedTime(seconds: number): string {
   if (seconds > 60) {
-    const minutes = seconds % 60;
-    return `${minutes} minutes, ${seconds} second${seconds === 1 ? '' : 's'}`;
+    const minutes = Math.round(seconds / 60);
+    let _seconds = seconds % 60;
+    return `${minutes} minutes, ${_seconds} second${_seconds === 1 ? '' : 's'}`;
   }
 
   return `${seconds} second${seconds === 1 ? '' : 's'}`;

@@ -22,14 +22,12 @@
     switch ($reasonInvalid) {
       case 'invalid-file-format':
         return `The format of the selected file isn't supported.`;
-      case 'image-too-large':
-        return `The selected image was too large. The size limit is ${
+      case 'file-too-large':
+        return `The selected file was too large. The size limit is ${
           FileApi.imageSizeLimit / 1024 / 1024
-        } MB.`;
-      case 'video-too-large':
-        return `The selected image was too large. The size limit is ${
+        } MB for images and ${
           FileApi.videoSizeLimit / 1024 / 1024
-        } MB.`;
+        } for videos.`;
       default:
         return `There was an error while uploading your file. Please try again.`;
     }
