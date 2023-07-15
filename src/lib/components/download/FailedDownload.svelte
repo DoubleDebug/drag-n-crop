@@ -44,9 +44,9 @@
           <p class="text-left">{$reasonDownloadFail}</p>
         </AccordionItem>
       </Accordion>
-      <div class="flex gap-2">
+      <div class="grid w-full md:flex gap-2">
         <Button
-          class="lg:w-40 max-h-[42px]"
+          class="order-2 lg:order-1 lg:w-40 max-h-[42px]"
           on:click={handleTryAgain}
           disabled={stage !== 'default'}
         >

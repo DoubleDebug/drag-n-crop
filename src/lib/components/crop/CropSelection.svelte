@@ -1,20 +1,30 @@
-<script>
+<script lang="ts">
   import { rawFileUrl, isImage } from '../../../stores/state';
   import {
     CONTAINER_HEIGHT,
     ID_CROP_AREA,
     ID_VIDEO_ELEMENT,
   } from '../../../utils/constant';
+  import { CropUtils } from '../../../utils/crop';
+
+  let heightClass = 'h-full';
+  const updateHeightClass = () => {
+    const { naturalHeight, naturalWidth } = CropUtils.getMediaElement($isImage);
+    if (naturalWidth > naturalHeight) heightClass = '';
+  };
 </script>
 
-<div class={`flex justify-center w-[800px] h-[${CONTAINER_HEIGHT}px] bshadow`}>
+<div
+  class={`flex justify-center w-full md:w-[800px] h-[${CONTAINER_HEIGHT}px] bshadow`}
+>
   {#if $rawFileUrl}
     {#if $isImage}
       <img
         id={ID_CROP_AREA}
         src={$rawFileUrl}
         alt="Cropping resource"
-        class="h-full aspect-auto"
+        class={`${heightClass} aspect-auto`}
+        on:load={updateHeightClass}
       />
     {:else}
       <div class="relative">
@@ -27,8 +37,9 @@
         <video
           id={ID_VIDEO_ELEMENT}
           src={$rawFileUrl}
-          class="h-full aspect-auto"
+          class={`${heightClass} aspect-auto`}
           controls
+          on:load={updateHeightClass}
         >
           <track kind="captions" />
         </video>

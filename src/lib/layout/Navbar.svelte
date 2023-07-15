@@ -7,7 +7,7 @@
     <div class="flex gap-2">
       <span class="logo logo-black dark:logo-white" />
       <span
-        class="self-center whitespace-nowrap text-xl font-semibold dark:text-white"
+        class="label-home self-center whitespace-nowrap text-xl font-semibold dark:text-white"
       >
         Drag and crop!
       </span>
@@ -24,5 +24,11 @@
 
   .logo-black {
     content: url('/public/favicon-black.png');
+  }
+
+  @media only screen and (max-width: 640px) {
+    .label-home {
+      display: none;
+    }
   }
 </style>

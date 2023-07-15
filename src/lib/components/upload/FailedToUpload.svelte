@@ -75,11 +75,11 @@
           <AccordionItem open>
             <span slot="header">
               <div class="flex items-center gap-2 text-red-400">
-                <InfoIcon />
+                <span class="text-2xl md:text-base"><InfoIcon /></span>
                 There was an error while uploading the file.
               </div>
             </span>
-            <p class="text-left">{$reasonUploadFail}</p>
+            <p class="text-left min-h-[100px]">{$reasonUploadFail}</p>
           </AccordionItem>
         {/if}
       </Accordion>

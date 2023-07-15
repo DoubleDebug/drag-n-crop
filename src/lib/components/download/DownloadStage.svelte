@@ -13,7 +13,7 @@
   });
 </script>
 
-<div class={`flex justify-center w-[800px] h-[600px] bshadow`}>
+<div class={`flex justify-center w-full md:w-[800px] h-[600px] bshadow`}>
   <div class="flex relative">
     <div class="absolute inset-0 bg-black opacity-75" />
     <div

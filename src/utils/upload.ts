@@ -11,7 +11,18 @@ import {
   uploadPercentage,
 } from '../stores/state';
 
-export function handleNewFile(event: any, isImage: boolean) {
+export function setAllowedExtensions(container: HTMLDivElement) {
+  const inputs = container.getElementsByTagName('input');
+  if (inputs.length !== 1) return;
+
+  const allowedExtensions = [
+    ...FileApi.validImageFormats,
+    ...FileApi.validVideoFormats,
+  ].join(', ');
+  inputs[0].accept = allowedExtensions;
+}
+
+export function handleNewFile(event: any) {
   event.preventDefault();
 
   // extract file
@@ -39,7 +50,7 @@ export function handleNewFile(event: any, isImage: boolean) {
   // upload file
   const path = FirebaseStorageApi.uploadFile({
     file: firstFile,
-    isImage,
+    isImage: validation.isImage,
     onStateChange: (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
       const progressFormatted = Math.round(progress);

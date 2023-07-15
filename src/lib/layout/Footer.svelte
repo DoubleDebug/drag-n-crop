@@ -2,9 +2,11 @@
   import { FooterCopyright, FooterIcon, Tooltip } from 'flowbite-svelte';
 </script>
 
-<div class="flex items-center justify-between mx-auto mt-20 mb-5 container">
-  <FooterCopyright href="/" by="Drag and crop" />
-  <div class="flex mt-4 space-x-6 sm:justify-center sm:mt-0">
+<div
+  class="footer flex items-center justify-between mx-auto mt-20 mb-5 container"
+>
+  <FooterCopyright by="Drag and crop" />
+  <div class="icons flex mt-4 space-x-6 sm:justify-center sm:mt-0">
     <Tooltip triggeredBy="[id='link-github']">Github</Tooltip>
     <FooterIcon
       href="https://github.com/DoubleDebug"
@@ -85,3 +87,21 @@
     </FooterIcon>
   </div>
 </div>
+
+<style>
+  @media only screen and (max-width: 640px) {
+    .footer {
+      display: grid;
+      justify-content: center;
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .icons {
+      display: flex;
+      justify-content: center;
+      order: -1;
+      margin-bottom: 16px;
+    }
+  }
+</style>

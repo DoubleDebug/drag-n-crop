@@ -11,10 +11,10 @@
   import { stage } from '../../stores/state';
 </script>
 
-<div class="flex justify-center mt-16 p-8">
+<div class="flex justify-center mt-4 lg:mt-16 p-8">
   <div class="grid gap-20 text-center w-full max-w-[1024px]">
     <Heading />
-    <div class="grid md:flex items-center gap-10">
+    <div class="grid md:flex items-center gap-4 lg:gap-10">
       <Stepper />
       {#if $stage === 'ready-to-upload'}
         <UploadStage />

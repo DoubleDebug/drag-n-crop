@@ -29,6 +29,11 @@ export namespace CropUtils {
     // calculate real coordinates
     const { mediaElement, naturalWidth, naturalHeight } =
       getMediaElement(isImage);
+    if (!mediaElement) {
+      stage.set('failed-to-crop');
+      reasonCropFail.set('Failed to read the cropping coordinates.');
+      return;
+    }
     const widthPercentage =
       mediaElement.getBoundingClientRect().width / naturalWidth;
     const heightPercentage =
@@ -94,15 +99,23 @@ export namespace CropUtils {
   }
 
   export function getMediaElement(isImage: boolean) {
+    const DEFAULT_RESULT = {
+      mediaElement: null,
+      naturalWidth: 0,
+      naturalHeight: 0,
+    };
+
     let mediaElement, naturalWidth, naturalHeight;
     if (isImage) {
       mediaElement = document.getElementById(ID_CROP_AREA) as HTMLImageElement;
+      if (!mediaElement) return DEFAULT_RESULT;
       naturalWidth = mediaElement.naturalWidth;
       naturalHeight = mediaElement.naturalHeight;
     } else {
       mediaElement = document.getElementById(
         ID_VIDEO_ELEMENT
       ) as HTMLVideoElement;
+      if (!mediaElement) return DEFAULT_RESULT;
       naturalWidth = mediaElement.videoWidth;
       naturalHeight = mediaElement.videoHeight;
     }

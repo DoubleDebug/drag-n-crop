@@ -20,9 +20,11 @@
   // props
   export let handleCrop: () => void;
   export let handleCancel: () => void;
+
+  $: gapClass = !$isImage || $stage === 'cropping' ? 'gap-y-3' : '';
 </script>
 
-<div class="flex items-center justify-between">
+<div class={`grid ${gapClass} md:flex md:items-center md:justify-between`}>
   <P size="lg">
     {#if $stage === 'cropping'}
       <LoadingLabel
@@ -69,5 +71,22 @@
 
   .btn-container :global(:first-child) {
     width: 150px;
+  }
+
+  @media only screen and (max-width: 768px) {
+    .btn-container {
+      display: grid;
+      width: 100%;
+      justify-content: normal;
+      gap: 10px;
+    }
+
+    .btn-container :global(:last-child) {
+      width: 100%;
+    }
+
+    .btn-container :global(:first-child) {
+      width: 100%;
+    }
   }
 </style>
