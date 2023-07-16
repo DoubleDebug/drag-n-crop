@@ -9,6 +9,7 @@ import {
   reasonUploadFail,
   stage,
   uploadPercentage,
+  originalFileName,
 } from '../stores/state';
 
 export function setAllowedExtensions(container: HTMLDivElement) {
@@ -46,6 +47,7 @@ export function handleNewFile(event: any) {
   stage.set('uploading');
   const fileSize = (firstFile as File).size / (1024 * 1024);
   originalFileSize.set(fileSize.toFixed(2));
+  originalFileName.set(firstFile.name);
 
   // upload file
   const path = FirebaseStorageApi.uploadFile({

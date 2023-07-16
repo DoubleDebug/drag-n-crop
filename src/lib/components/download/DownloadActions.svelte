@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { Button } from 'flowbite-svelte';
+  import { Button, Checkbox } from 'flowbite-svelte';
   import {
     croppedFilePath,
     croppedStoragePath,
+    originalFileName,
     rawStoragePath,
   } from '../../../stores/state';
   import { handleDownload as downloadResult } from '../../../utils/download';
@@ -11,6 +12,7 @@
   import LoadingIcon from '$lib/icons/LoadingIcon.svelte';
 
   let stage: 'default' | 'downloading' | 'cooldown' = 'default';
+  let keepOriginalFileName = false;
 
   const handleReset = () => {
     if ($rawStoragePath) {
@@ -21,7 +23,11 @@
 
   const handleDownload = async () => {
     stage = 'downloading';
-    await downloadResult($croppedFilePath, $croppedStoragePath);
+    await downloadResult(
+      $croppedFilePath,
+      $croppedStoragePath,
+      keepOriginalFileName ? $originalFileName : null
+    );
     stage = 'cooldown';
     setTimeout(() => {
       stage = 'default';
@@ -30,6 +36,9 @@
 </script>
 
 <div class="grid gap-2">
+  <Checkbox bind:checked={keepOriginalFileName}>
+    Keep original file name
+  </Checkbox>
   <Button on:click={handleReset} color="alternative" class="min-w-[300px]">
     Reset
   </Button>

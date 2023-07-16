@@ -6,6 +6,7 @@ import type { AppStage, FileInvalidReason } from '../app';
 // application state
 export const stage = writable<AppStage>('ready-to-upload');
 export const isImage = writable<boolean>(true);
+export const originalFileName = writable<string | null>(null);
 export const rawFileUrl = writable<string | null>(null);
 export const croppedFilePath = writable<string | null>(null);
 export const rawStoragePath = writable<string | null>(null);

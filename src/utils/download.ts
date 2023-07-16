@@ -3,7 +3,8 @@ import { stage, reasonDownloadFail } from '../stores/state';
 
 export async function handleDownload(
   filePath: string | null,
-  storagePath: string | null
+  storagePath: string | null,
+  originalFileName: string | null
 ) {
   if (!filePath || !storagePath) {
     stage.set('failed-to-download');
@@ -25,7 +26,12 @@ export async function handleDownload(
   const link = document.createElement('a');
   link.href = url;
 
-  const fileName = FileApi.getFilenameFromStoragePath(storagePath);
+  let fileName;
+  if (originalFileName) {
+    fileName = originalFileName;
+  } else {
+    fileName = FileApi.getFilenameFromStoragePath(storagePath);
+  }
   link.download = fileName;
 
   link.click();
