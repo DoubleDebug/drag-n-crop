@@ -42,12 +42,12 @@
           <AccordionItem open>
             <span slot="header">
               <div class="flex items-center gap-2 text-red-400">
-                <InfoIcon />
+                <span class="text-2xl md:text-normal"><InfoIcon /></span>
                 {invalidMessage}
               </div></span
             >
             <List list="disc">
-              <Li liClass="mb-1 text-left whitespace-nowrap">
+              <Li liClass="error-list-item">
                 Supported image formats:
                 {#each imageExtensions as extension}
                   <div class="inline-block ml-2">
@@ -55,7 +55,7 @@
                   </div>
                 {/each}
               </Li>
-              <Li liClass="mb-1 text-left whitespace-nowrap">
+              <Li liClass="error-list-item">
                 Supported video formats:
                 {#each videoExtensions as extension}
                   <div class="inline-block ml-2">
@@ -63,10 +63,10 @@
                   </div>
                 {/each}
               </Li>
-              <Li liClass="mb-1 text-left whitespace-nowrap">
+              <Li liClass="error-list-item">
                 Maximum image size: {FileApi.imageSizeLimit / 1024 / 1024} MB.
               </Li>
-              <Li liClass="mb-1 text-left whitespace-nowrap">
+              <Li liClass="error-list-item">
                 Maximum video size: {FileApi.videoSizeLimit / 1024 / 1024} MB.
               </Li>
             </List>
@@ -83,7 +83,10 @@
           </AccordionItem>
         {/if}
       </Accordion>
-      <Button class="lg:w-40" on:click={() => stage.set('ready-to-upload')}>
+      <Button
+        class="ml-auto lg:w-40"
+        on:click={() => stage.set('ready-to-upload')}
+      >
         Try again
       </Button>
     </div>

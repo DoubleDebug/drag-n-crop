@@ -39,9 +39,6 @@
   <Checkbox bind:checked={keepOriginalFileName}>
     Keep original file name
   </Checkbox>
-  <Button on:click={handleReset} color="alternative" class="min-w-[300px]">
-    Reset
-  </Button>
   <Button
     on:click={handleDownload}
     className="max-h-[42px]"
@@ -54,5 +51,8 @@
     {:else}
       Downloaded ✓
     {/if}
+  </Button>
+  <Button on:click={handleReset} color="alternative" class="min-w-[300px]">
+    Reset
   </Button>
 </div>

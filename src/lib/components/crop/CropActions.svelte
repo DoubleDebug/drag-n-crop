@@ -1,6 +1,6 @@
 <script lang="ts">
   import LoadingLabel from '../LoadingLabel.svelte';
-  import { P, Checkbox, Button, Spinner } from 'flowbite-svelte';
+  import { Checkbox, Button, Spinner } from 'flowbite-svelte';
   import { stage, isImage } from '../../../stores/state';
   import { ID_VIDEO_ELEMENT } from '../../../utils/constant';
 
@@ -25,17 +25,19 @@
 </script>
 
 <div class={`grid ${gapClass} md:flex md:items-center md:justify-between`}>
-  <P size="lg">
-    {#if $stage === 'cropping'}
+  {#if $stage === 'cropping'}
+    <span class="text-lg label-loading">
       <LoadingLabel
         text={`Your ${$isImage ? 'image' : 'video'} is being cropped`}
       />
-    {:else if !$isImage}
-      <Checkbox checked={showControls} on:change={toggleControls}>
-        Show controls
-      </Checkbox>
-    {/if}
-  </P>
+    </span>
+  {:else if !$isImage}
+    <Checkbox checked={showControls} on:change={toggleControls}>
+      Show controls
+    </Checkbox>
+  {:else}
+    <span />
+  {/if}
   <div class="btn-container">
     <Button
       disabled={$stage === 'cropping'}
@@ -81,12 +83,17 @@
       gap: 10px;
     }
 
+    .btn-container :global(:first-child) {
+      width: 100%;
+      order: 1;
+    }
+
     .btn-container :global(:last-child) {
       width: 100%;
     }
 
-    .btn-container :global(:first-child) {
-      width: 100%;
+    .label-loading {
+      order: 2;
     }
   }
 </style>

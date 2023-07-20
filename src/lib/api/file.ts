@@ -29,7 +29,7 @@ export namespace FileApi {
    * console.log(extension); // .mp4
    */
   export function getExtension(fileName: string): string | null {
-    const regex = new RegExp(/^[a-zA-Z0-9\._-\s]*(\.[a-zA-Z0-9]+)$/);
+    const regex = new RegExp(/^[a-zA-Z0-9()\._-\s]*(\.[a-zA-Z0-9]+)$/);
     const result = regex.exec(fileName);
     if (result === null || result.length !== 2) return null;
 
