@@ -18,7 +18,10 @@
           <p class="text-left">{$reasonCropFail}</p>
         </AccordionItem>
       </Accordion>
-      <Button class="lg:w-40" on:click={() => stage.set('ready-to-upload')}>
+      <Button
+        class="ml-auto w-full lg:w-40"
+        on:click={() => stage.set('ready-to-upload')}
+      >
         Try again
       </Button>
     </div>

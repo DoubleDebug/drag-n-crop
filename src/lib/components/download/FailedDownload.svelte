@@ -4,6 +4,7 @@
     croppedFilePath,
     croppedStoragePath,
     isImage,
+    originalFileName,
     reasonDownloadFail,
   } from '../../../stores/state';
   import InfoIcon from '$lib/icons/InfoIcon.svelte';
@@ -17,7 +18,11 @@
 
   const handleTryAgain = async () => {
     stage = 'downloading';
-    await handleDownload($croppedFilePath, $croppedStoragePath);
+    await handleDownload(
+      $croppedFilePath,
+      $croppedStoragePath,
+      $originalFileName
+    );
     stage = 'cooldown';
     timeoutId = setTimeout(() => {
       stage = 'default';
@@ -46,7 +51,7 @@
       </Accordion>
       <div class="grid w-full md:flex gap-2">
         <Button
-          class="order-2 lg:order-1 lg:w-40 max-h-[42px]"
+          class="ml-auto w-full lg:w-40 max-h-[42px]"
           on:click={handleTryAgain}
           disabled={stage !== 'default'}
         >
@@ -60,7 +65,7 @@
         </Button>
         <Button
           color="alternative"
-          class="lg:w-40 max-h-[42px]"
+          class="w-full lg:w-40 max-h-[42px]"
           on:click={resetState}
         >
           Reset

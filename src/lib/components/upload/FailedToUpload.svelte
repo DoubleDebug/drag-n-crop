@@ -84,7 +84,7 @@
         {/if}
       </Accordion>
       <Button
-        class="ml-auto lg:w-40"
+        class="ml-auto w-full lg:w-40"
         on:click={() => stage.set('ready-to-upload')}
       >
         Try again
