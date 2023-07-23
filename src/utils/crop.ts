@@ -1,6 +1,6 @@
-import { CropApi } from '$lib/api/crop';
-import { FileApi } from '$lib/api/file';
-import { FirebaseStorageApi } from '$lib/api/firebase-storage';
+import { CropApi } from '../api/crop';
+import { FileApi } from '../api/file';
+import { FirebaseStorageApi } from '../api/firebase-storage';
 import type { CropOptions } from '../app';
 import {
   croppedFilePath,

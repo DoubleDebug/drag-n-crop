@@ -1,6 +1,6 @@
 import axios from 'axios';
-import type { ApiResult, CropOptions } from '../../app';
-import { timeElapsed } from '../../stores/state';
+import type { ApiResult, CropOptions } from '../app';
+import { timeElapsed } from '../stores/state';
 
 export namespace CropApi {
   const ROOT_URL = 'http://127.0.0.1:8000';

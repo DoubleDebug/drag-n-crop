@@ -7,12 +7,12 @@
     rawStoragePath,
   } from '../../../stores/state';
   import { handleDownload as downloadResult } from '../../../utils/download';
-  import { FirebaseStorageApi } from '$lib/api/firebase-storage';
+  import { FirebaseStorageApi } from '../../../api/firebase-storage';
   import { resetState } from '../../../utils/reset';
   import LoadingIcon from '$lib/icons/LoadingIcon.svelte';
 
   let stage: 'default' | 'downloading' | 'cooldown' = 'default';
-  let keepOriginalFileName = false;
+  let keepOriginalFileName = true;
 
   const handleReset = () => {
     if ($rawStoragePath) {

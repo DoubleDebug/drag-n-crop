@@ -1,40 +1,50 @@
 <script lang="ts">
-  import UploadIcon from '$lib/icons/UploadIcon.svelte';
-  import { Dropzone } from 'flowbite-svelte';
-  import { handleNewFile, setAllowedExtensions } from '../../../utils/upload';
-  import { onMount } from 'svelte';
+  import URLForm from './URLForm.svelte';
+  import FileDropzone from './FileDropzone.svelte';
+  import UploadTypeSwitch from './UploadTypeSwitch.svelte';
+  import { rawFileUrl, uploadType } from '../../../stores/state';
+  import { Button } from 'flowbite-svelte';
+  import { handleUploadFile, handleUploadFromUrl } from '../../../utils/upload';
+  import { FileApi } from '../../../api/file';
 
-  let isDragOver = false;
-  let dropzone: HTMLDivElement;
-  onMount(() => setAllowedExtensions(dropzone));
+  let file: File | null = null;
 
-  $: dragoverClassname = isDragOver
-    ? 'bg-gray-100 dark:border-gray-500 dark:bg-gray-600'
-    : '';
+  const handleUpload = () => {
+    if ($uploadType === 'file') {
+      handleUploadFile(file);
+    } else {
+      if (!$rawFileUrl) return;
+      handleUploadFromUrl($rawFileUrl);
+    }
+  };
+
+  $: isUploadDisabled = (() => {
+    if ($uploadType === 'file') {
+      return !file;
+    } else {
+      if (!$rawFileUrl) return true;
+
+      const fileName = FileApi.getFilenameFromStoragePath($rawFileUrl);
+      const isValidImage = FileApi.isImageFormatSupported(fileName);
+      const isValidVideo = FileApi.isVideoFormatSupported(fileName);
+      return !isValidImage && !isValidVideo;
+    }
+  })();
 </script>
 
-<div bind:this={dropzone} class="w-full">
-  <Dropzone
-    on:drop={(e) => e.preventDefault()}
-    on:change={handleNewFile}
-    on:drop={handleNewFile}
-    on:dragover={(e) => {
-      e.preventDefault();
-      isDragOver = true;
-    }}
-    on:dragleave={(e) => {
-      e.preventDefault();
-      isDragOver = false;
-    }}
-    class={`dropzone ${dragoverClassname}`}
+<div class="grid gap-3 w-full">
+  <UploadTypeSwitch />
+  {#if $uploadType === 'file'}
+    <FileDropzone bind:file />
+  {:else if $uploadType === 'url'}
+    <URLForm />
+  {/if}
+  <Button
+    color="primary"
+    class="w-full md:w-[200px] md:ml-auto"
+    disabled={isUploadDisabled}
+    on:click={handleUpload}
   >
-    <div class="flex justify-center align-center flex-col h-full">
-      <div class="text-5xl mb-5">
-        <UploadIcon />
-      </div>
-      <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">
-        <span class="font-semibold">Click to upload</span> or drag and drop
-      </p>
-    </div>
-  </Dropzone>
+    Upload
+  </Button>
 </div>

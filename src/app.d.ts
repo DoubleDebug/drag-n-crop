@@ -12,12 +12,22 @@ type AppStage =
   | 'failed-to-download'
   | 'downloaded';
 
+type UploadType = 'file' | 'url';
+
 type UploadOptions = {
-  file: File;
   isImage: boolean;
   onSuccess?: (url: string) => unknown;
   onStateChange?: (snapshot: UploadTaskSnapshot) => unknown;
   onError?: (error: StorageError) => unknown;
+};
+
+type UploadFileOptions = UploadOptions & {
+  file: File;
+};
+
+type UploadUintArrayOptions = UploadOptions & {
+  uintArray: Uint8Array;
+  fileName: string;
 };
 
 type CropOptions = {

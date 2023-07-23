@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { FileValidationResult } from '../../app';
+import type { FileValidationResult } from '../app';
 
 export namespace FileApi {
   export const imageSizeLimit = 1024 * 1024 * 100; // 100 MB

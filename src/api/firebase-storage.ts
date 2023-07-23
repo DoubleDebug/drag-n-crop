@@ -5,9 +5,10 @@ import {
   getStorage,
   ref,
   uploadBytesResumable,
+  type UploadMetadata,
 } from 'firebase/storage';
 import { FileApi } from './file';
-import type { UploadOptions } from '../../app';
+import type { UploadFileOptions, UploadUintArrayOptions } from '../app';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCezpvLZnBEKSoAJg9MBJHyzSUg69LVVx4',
@@ -34,12 +35,42 @@ export namespace FirebaseStorageApi {
     return `${STORAGE_PATH_RAW}/${subfolder}/${newFileName}${extension}`;
   }
 
-  export function uploadFile(options: UploadOptions) {
+  export function uploadFile(options: UploadFileOptions) {
     const extension = FileApi.getExtension(options.file.name)!;
     const storagePath = formatStoragePath(extension, options.isImage);
     const storageRef = ref(storage, storagePath);
 
     const uploadTask = uploadBytesResumable(storageRef, options.file);
+    uploadTask.on(
+      'state_changed',
+      options.onStateChange,
+      options.onError,
+      () => {
+        if (options.onSuccess) {
+          getDownloadURL(uploadTask.snapshot.ref).then(options.onSuccess);
+        }
+      }
+    );
+
+    return storagePath;
+  }
+
+  export function uploadUintArray(options: UploadUintArrayOptions) {
+    const extension = FileApi.getExtension(options.fileName)!;
+    const storagePath = formatStoragePath(extension, options.isImage);
+    const storageRef = ref(storage, storagePath);
+
+    const metadata: UploadMetadata = {
+      customMetadata: {
+        isUintArray: 'true',
+      },
+    };
+
+    const uploadTask = uploadBytesResumable(
+      storageRef,
+      options.uintArray,
+      metadata
+    );
     uploadTask.on(
       'state_changed',
       options.onStateChange,

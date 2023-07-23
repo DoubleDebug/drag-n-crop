@@ -13,7 +13,7 @@
     reasonUploadFail,
     stage,
   } from '../../../stores/state';
-  import { FileApi } from '$lib/api/file';
+  import { FileApi } from '../../../api/file';
   import InfoIcon from '$lib/icons/InfoIcon.svelte';
 
   let imageExtensions = FileApi.validImageFormats;

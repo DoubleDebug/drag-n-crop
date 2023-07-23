@@ -1,5 +1,5 @@
-import { FileApi } from '$lib/api/file';
-import { FirebaseStorageApi } from '$lib/api/firebase-storage';
+import { FileApi } from '../api/file';
+import { FirebaseStorageApi } from '../api/firebase-storage';
 import {
   isImage as state_isImage,
   originalFileSize,
@@ -23,20 +23,9 @@ export function setAllowedExtensions(container: HTMLDivElement) {
   inputs[0].accept = allowedExtensions;
 }
 
-export function handleNewFile(event: any) {
-  event.preventDefault();
-
-  // extract file
-  const files = event.target?.files || event.dataTransfer?.files;
-  if (!files || !files.length || files.length === 0) {
-    stage.set('failed-to-upload');
-    reasonUploadFail.set(`You didn't select any files.`);
-    return;
-  }
-  const firstFile = files[0];
-
+export function handleUploadFile(file: any) {
   // validate file foromat
-  const validation = FileApi.isFileValid(firstFile);
+  const validation = FileApi.isFileValid(file);
   if (!validation.isValid) {
     stage.set('failed-to-upload');
     reasonInvalid.set(validation.reason);
@@ -45,13 +34,13 @@ export function handleNewFile(event: any) {
 
   state_isImage.set(validation.isImage);
   stage.set('uploading');
-  const fileSize = (firstFile as File).size / (1024 * 1024);
+  const fileSize = (file as File).size / (1024 * 1024);
   originalFileSize.set(fileSize.toFixed(2));
-  originalFileName.set(firstFile.name);
+  originalFileName.set(file.name);
 
   // upload file
   const path = FirebaseStorageApi.uploadFile({
-    file: firstFile,
+    file,
     isImage: validation.isImage,
     onStateChange: (snapshot) => {
       const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -68,4 +57,41 @@ export function handleNewFile(event: any) {
     },
   });
   rawStoragePath.set(path);
+}
+
+export async function handleUploadFromUrl(url: string) {
+  stage.set('uploading');
+
+  // download file
+  const response = await fetch(url);
+  if (response.status !== 200 || !response.body) return false;
+
+  const fileName = FileApi.getFilenameFromStoragePath(url);
+  originalFileName.set(fileName);
+
+  const uintArray = new Uint8Array(await response.arrayBuffer());
+  const fileSize = uintArray.length / (1024 * 1024);
+  originalFileSize.set(fileSize.toFixed(2));
+
+  // upload file
+  const path = FirebaseStorageApi.uploadUintArray({
+    fileName,
+    uintArray,
+    isImage: FileApi.isImageFormatSupported(fileName),
+    onStateChange: (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      const progressFormatted = Math.round(progress);
+      uploadPercentage.set(progressFormatted);
+    },
+    onSuccess: (url) => {
+      rawFileUrl.set(url);
+      stage.set('ready-to-crop');
+    },
+    onError: (error) => {
+      reasonUploadFail.set('Error code: ' + error.code);
+      stage.set('failed-to-upload');
+    },
+  });
+  rawStoragePath.set(path);
+  return true;
 }

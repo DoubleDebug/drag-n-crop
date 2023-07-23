@@ -1,4 +1,4 @@
-import { FileApi } from '$lib/api/file';
+import { FileApi } from '../api/file';
 import { stage, reasonDownloadFail } from '../stores/state';
 
 export async function handleDownload(

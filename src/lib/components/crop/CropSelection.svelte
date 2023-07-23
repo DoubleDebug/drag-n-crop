@@ -23,7 +23,7 @@
         id={ID_CROP_AREA}
         src={$rawFileUrl}
         alt="Cropping resource"
-        class={`${heightClass} aspect-auto`}
+        class={`${heightClass} max-h-full aspect-auto`}
         on:load={updateHeightClass}
       />
     {:else}
@@ -37,7 +37,7 @@
         <video
           id={ID_VIDEO_ELEMENT}
           src={$rawFileUrl}
-          class={`${heightClass} aspect-auto`}
+          class={`${heightClass} max-h-full aspect-auto`}
           controls
           on:load={updateHeightClass}
         >

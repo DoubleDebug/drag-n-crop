@@ -1,11 +1,12 @@
 import { derived, writable } from 'svelte/store';
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
-import type { AppStage, FileInvalidReason } from '../app';
+import type { AppStage, FileInvalidReason, UploadType } from '../app';
 
 // application state
 export const stage = writable<AppStage>('ready-to-upload');
 export const isImage = writable<boolean>(true);
+export const uploadType = writable<UploadType>('file');
 export const originalFileName = writable<string | null>(null);
 export const rawFileUrl = writable<string | null>(null);
 export const croppedFilePath = writable<string | null>(null);

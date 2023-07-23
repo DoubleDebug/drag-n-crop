@@ -26,15 +26,17 @@
 
 <div class={`grid ${gapClass} md:flex md:items-center md:justify-between`}>
   {#if $stage === 'cropping'}
-    <span class="text-lg label-loading">
+    <span class="text-lg rev-order">
       <LoadingLabel
         text={`Your ${$isImage ? 'image' : 'video'} is being cropped`}
       />
     </span>
   {:else if !$isImage}
-    <Checkbox checked={showControls} on:change={toggleControls}>
-      Show controls
-    </Checkbox>
+    <span class="rev-order">
+      <Checkbox checked={showControls} on:change={toggleControls}>
+        Show controls
+      </Checkbox>
+    </span>
   {:else}
     <span />
   {/if}
@@ -92,7 +94,7 @@
       width: 100%;
     }
 
-    .label-loading {
+    .rev-order {
       order: 2;
     }
   }

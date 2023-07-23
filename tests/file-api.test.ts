@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { FileApi } from '$lib/api/file';
+import { FileApi } from '../src/api/file';
 
 describe('file api', () => {
   it('get extension', () => {

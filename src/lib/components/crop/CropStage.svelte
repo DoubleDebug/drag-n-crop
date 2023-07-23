@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
   import { isImage, jcrop, rawStoragePath } from '../../../stores/state';
-  import { FirebaseStorageApi } from '$lib/api/firebase-storage';
+  import { FirebaseStorageApi } from '../../../api/firebase-storage';
   import { resetState } from '../../../utils/reset';
   import { JcropUtils } from '../../../utils/jcrop';
   import { CropUtils } from '../../../utils/crop';
@@ -31,7 +31,7 @@
   };
 </script>
 
-<div class="grid gap-5">
+<div class="grid gap-3">
   <CropElement />
   <CropActions {handleCrop} {handleCancel} />
 </div>
