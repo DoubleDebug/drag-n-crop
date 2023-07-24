@@ -10,9 +10,11 @@ It can handle various file formats and sizes, with images up to 100 MB and video
 
 | Frontend &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; | &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Backend |
 | :-------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| [Svelte](https://svelte.dev)                                                                                                                              |                                                                                                                              [Rust](https://www.rust-lang.org) |
-| [Flowbite](https://flowbite-svelte.com)                                                                                                                   |                                                                                                                                    [Rocket](https://rocket.rs) |
-| [JCrop](https://jcrop.com)                                                                                                                                |                                                                                                                               [FFMpeg](https://www.ffmpeg.org) |
+| [Svelte](https://svelte.dev)                 |       [Rust](https://www.rust-lang.org) |
+| [Typescript](https://www.typescriptlang.org) |             [Rocket](https://rocket.rs) |
+| [Flowbite](https://flowbite-svelte.com)      | [Firebase](https://firebase.google.com) |
+| [JCrop](https://jcrop.com)                   |        [FFMpeg](https://www.ffmpeg.org) |
+
 ## Limitations
 | File type | Size  | Format                              |
 | --------- | ----- | ----------------------------------- |
@@ -20,11 +22,13 @@ It can handle various file formats and sizes, with images up to 100 MB and video
 | video     | 1GB   | mp4, mkv, flv, avi, mov, wmv, webm  |
 
 ## How to run locally
-0. Run the [backend](https://github.com/DoubleDebug/drag-n-crop-be) locally.
-1. Install yarn using the following command: `npm i -g corepack`
-2. Clone this repository
-3. Run `yarn` in root folder
-4. Run `yarn dev` in root folder
+*(Prerequisite)* Run the [backend](https://github.com/DoubleDebug/drag-n-crop-be) locally.
+<br />
+*(Prerequisite)* Install [yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable).
+1. Clone this repository
+2. Run `yarn` in root folder
+3. Run `yarn dev` in root folder
+4. Navigate to http://localhost:5173.
 
 ## Change log
 - **version 1.1 ( ??? )**
