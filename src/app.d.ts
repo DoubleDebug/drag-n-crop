@@ -30,17 +30,24 @@ type UploadUintArrayOptions = UploadOptions & {
   fileName: string;
 };
 
-type CropOptions = {
-  storage_file_path: string;
-  dimensions: {
-    top_left_point: {
-      x: number;
-      y: number;
+type CropOptions =
+  | {
+      storage_file_path: string;
+      dimensions: CropDimensions;
+    }
+  | {
+      url: string;
+      dimensions: CropDimensions;
     };
-    size: {
-      width: number;
-      height: number;
-    };
+
+type CropDimensions = {
+  top_left_point: {
+    x: number;
+    y: number;
+  };
+  size: {
+    width: number;
+    height: number;
   };
 };
 
@@ -61,6 +68,20 @@ type FileValidationResult = {
   isImage: boolean;
   reason: FileInvalidReason | null;
 };
+
+type HandleCropOptions =
+  | {
+      jcropRef: any;
+      isImage: boolean;
+      uploadType: 'file';
+      storagePath: string;
+    }
+  | {
+      jcropRef: any;
+      isImage: boolean;
+      uploadType: 'url';
+      url: string;
+    };
 
 type FileInvalidReason = 'invalid-file-format' | 'file-too-large';
 

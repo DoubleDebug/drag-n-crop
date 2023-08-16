@@ -1,6 +1,12 @@
 <script lang="ts">
   import { onDestroy, onMount } from 'svelte';
-  import { isImage, jcrop, rawStoragePath } from '../../../stores/state';
+  import {
+    isImage,
+    jcrop,
+    rawFileUrl,
+    rawStoragePath,
+    uploadType,
+  } from '../../../stores/state';
   import { FirebaseStorageApi } from '../../../api/firebase-storage';
   import { resetState } from '../../../utils/reset';
   import { JcropUtils } from '../../../utils/jcrop';
@@ -21,8 +27,16 @@
   });
 
   // handlers
-  const handleCrop = () =>
-    CropUtils.handleCrop($jcrop, $rawStoragePath, $isImage);
+  const handleCrop = () => {
+    let options = {
+      jcropRef: $jcrop,
+      isImage: $isImage,
+      uploadType: $uploadType,
+      storagePath: $rawStoragePath || '',
+      url: $rawFileUrl || '',
+    };
+    CropUtils.handleCrop(options);
+  };
   const handleCancel = () => {
     if ($rawStoragePath) {
       FirebaseStorageApi.deleteFile($rawStoragePath);
