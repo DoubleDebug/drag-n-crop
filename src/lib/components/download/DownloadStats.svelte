@@ -19,11 +19,15 @@
     >
     <Li>
       Original file size:
-      <span class="float-right"> {$originalFileSize} MB</span>
+      <span class="float-right">
+        {$originalFileSize ? `${$originalFileSize} MB` : `unknown`}</span
+      >
     </Li>
     <Li>
       Cropped file size:
-      <span class="float-right"> {$croppedFileSize} MB</span>
+      <span class="float-right">
+        {$croppedFileSize ? `${$croppedFileSize} MB` : `unknown`}</span
+      >
     </Li>
   </List>
 </div>

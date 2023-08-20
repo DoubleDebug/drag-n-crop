@@ -1,26 +1,20 @@
 <script>
   import { Button, Helper, Input, Label } from 'flowbite-svelte';
-  import { isImage, rawFileUrl } from '../../../stores/state';
-  import { FileApi } from '../../../api/file';
+  import { rawFileUrl } from '../../../stores/state';
+  import { UrlHelper } from '../../../api/url';
 
   const handlePaste = async () => {
     const clipboardText = await navigator.clipboard.readText();
     rawFileUrl.set(clipboardText);
   };
 
-  let isUrlValid = true;
-  $: if ($rawFileUrl && $rawFileUrl !== '') {
-    const url = $rawFileUrl;
-    const fileName = FileApi.getFilenameFromStoragePath(url);
-    const isValidImage = FileApi.isImageFormatSupported(fileName);
-    const isValidVideo = FileApi.isVideoFormatSupported(fileName);
-    if (isValidImage || isValidVideo) {
-      isImage.set(isValidImage);
-      isUrlValid = true;
-    } else {
-      isUrlValid = false;
-    }
-  }
+  $: isUrlInvalid = (() => {
+    if (!$rawFileUrl) return false;
+
+    const isValidImage = UrlHelper.isImageUrl($rawFileUrl);
+    const isValidVideo = UrlHelper.isVideoUrl($rawFileUrl);
+    return !isValidImage && !isValidVideo;
+  })();
 </script>
 
 <div
@@ -38,7 +32,7 @@
         />
         <Button color="alternative" on:click={handlePaste}>Paste</Button>
       </div>
-      {#if !isUrlValid}
+      {#if isUrlInvalid}
         <Helper class="ml-2 mt-1 md:mt-0 text-sm !text-red-400">
           URL does not contain a valid image or video.
         </Helper>

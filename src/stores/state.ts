@@ -26,6 +26,7 @@ export const originalFileSize = writable<string | null>(null); // in megabytes
 export const croppedFileSize = writable<string | null>(null); // in megabytes
 export const screenWidth = writable<number>(1920);
 export const screenHeight = writable<number>(1024);
+export const isResourceBad = writable<boolean>(false);
 
 // derived state
 export const stepNumber = derived(stage, ($stage) => {

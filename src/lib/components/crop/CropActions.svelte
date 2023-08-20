@@ -1,11 +1,13 @@
 <script lang="ts">
   import LoadingLabel from '../LoadingLabel.svelte';
-  import { Checkbox, Button, Spinner } from 'flowbite-svelte';
-  import { stage, isImage } from '../../../stores/state';
+  import InfoIcon from '$lib/icons/InfoIcon.svelte';
+  import { Checkbox, Button, Spinner, Tooltip } from 'flowbite-svelte';
+  import { stage, isImage, isResourceBad } from '../../../stores/state';
   import { ID_VIDEO_ELEMENT } from '../../../utils/constant';
 
-  // state
-  let showControls = true;
+  // props
+  export let handleCrop: () => void;
+  export let handleCancel: () => void;
 
   // handlers
   const toggleControls = () => {
@@ -17,10 +19,8 @@
     videoElement.controls = showControls;
   };
 
-  // props
-  export let handleCrop: () => void;
-  export let handleCancel: () => void;
-
+  // state
+  let showControls = true;
   $: gapClass = !$isImage || $stage === 'cropping' ? 'gap-y-3' : '';
 </script>
 
@@ -31,6 +31,19 @@
         text={`Your ${$isImage ? 'image' : 'video'} is being cropped`}
       />
     </span>
+  {:else if $isResourceBad}
+    <div class="flex items-center gap-2 text-red-400">
+      There's an issue with the selected {$isImage ? 'image' : 'video'}.
+      <span id="info-icon"><InfoIcon /></span>
+      <Tooltip
+        triggeredBy="[id='info-icon']"
+        placement="bottom"
+        class="text-sm p-1 max-w-sm"
+      >
+        This application does not have access to this image/video. Try
+        downloading it to your device, and then uploading it here.
+      </Tooltip>
+    </div>
   {:else if !$isImage}
     <span class="rev-order">
       <Checkbox checked={showControls} on:change={toggleControls}>
@@ -49,7 +62,7 @@
       Cancel
     </Button>
     <Button
-      disabled={$stage === 'cropping'}
+      disabled={$stage === 'cropping' || $isResourceBad}
       on:click={handleCrop}
       class="max-h-[42px]"
     >
@@ -62,40 +75,4 @@
   </div>
 </div>
 
-<style>
-  .btn-container {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-  }
-
-  .btn-container :global(:last-child) {
-    width: 200px;
-  }
-
-  .btn-container :global(:first-child) {
-    width: 150px;
-  }
-
-  @media only screen and (max-width: 768px) {
-    .btn-container {
-      display: grid;
-      width: 100%;
-      justify-content: normal;
-      gap: 10px;
-    }
-
-    .btn-container :global(:first-child) {
-      width: 100%;
-      order: 1;
-    }
-
-    .btn-container :global(:last-child) {
-      width: 100%;
-    }
-
-    .rev-order {
-      order: 2;
-    }
-  }
-</style>
+<style src="../../../styles/crop-actions.css"></style>

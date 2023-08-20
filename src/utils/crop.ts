@@ -1,7 +1,7 @@
 import { CropApi } from '../api/crop';
 import { FileApi } from '../api/file';
 import { FirebaseStorageApi } from '../api/firebase-storage';
-import type { CropOptions } from '../app';
+import type { CropOptions, HandleCropOptions } from '../app';
 import {
   croppedFilePath,
   croppedFileSize,
@@ -12,12 +12,12 @@ import {
 import { ID_CROP_AREA, ID_VIDEO_ELEMENT } from './constant';
 
 export namespace CropUtils {
-  export async function handleCrop(
-    jcropRef: any,
-    storagePath: string | null,
-    isImage: boolean
-  ) {
-    if (!storagePath) {
+  export async function handleCrop(options: HandleCropOptions) {
+    const { jcropRef, isImage, uploadType } = options;
+    if (
+      (uploadType === 'file' && !options.storagePath) ||
+      (uploadType === 'url' && !options.url)
+    ) {
       stage.set('failed-to-crop');
       reasonCropFail.set("The file wasn't uploaded correctly.");
       return;
@@ -51,13 +51,24 @@ export namespace CropUtils {
     }
 
     // prepare data
-    const data: CropOptions = {
-      storage_file_path: storagePath,
+    let commonData: Partial<CropOptions> = {
       dimensions: {
         top_left_point: { x, y },
         size: { width, height },
       },
     };
+    if (uploadType === 'file') {
+      commonData = {
+        ...commonData,
+        storage_file_path: options.storagePath,
+      };
+    } else {
+      commonData = {
+        ...commonData,
+        url: options.url,
+      };
+    }
+    const data = commonData as CropOptions;
 
     // make request to server
     let response;

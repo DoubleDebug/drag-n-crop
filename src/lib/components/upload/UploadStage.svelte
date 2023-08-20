@@ -2,10 +2,15 @@
   import URLForm from './URLForm.svelte';
   import FileDropzone from './FileDropzone.svelte';
   import UploadTypeSwitch from './UploadTypeSwitch.svelte';
-  import { rawFileUrl, uploadType } from '../../../stores/state';
+  import {
+    isImage,
+    rawFileUrl,
+    stage,
+    uploadType,
+  } from '../../../stores/state';
   import { Button } from 'flowbite-svelte';
-  import { handleUploadFile, handleUploadFromUrl } from '../../../utils/upload';
-  import { FileApi } from '../../../api/file';
+  import { handleUploadFile } from '../../../utils/upload';
+  import { UrlHelper } from '../../../api/url';
 
   let file: File | null = null;
 
@@ -14,7 +19,9 @@
       handleUploadFile(file);
     } else {
       if (!$rawFileUrl) return;
-      handleUploadFromUrl($rawFileUrl);
+
+      isImage.set(UrlHelper.isImageUrl($rawFileUrl));
+      stage.set('ready-to-crop');
     }
   };
 
@@ -24,9 +31,8 @@
     } else {
       if (!$rawFileUrl) return true;
 
-      const fileName = FileApi.getFilenameFromStoragePath($rawFileUrl);
-      const isValidImage = FileApi.isImageFormatSupported(fileName);
-      const isValidVideo = FileApi.isVideoFormatSupported(fileName);
+      const isValidImage = UrlHelper.isImageUrl($rawFileUrl);
+      const isValidVideo = UrlHelper.isVideoUrl($rawFileUrl);
       return !isValidImage && !isValidVideo;
     }
   })();
