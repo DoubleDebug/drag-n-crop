@@ -11,7 +11,7 @@
   import { resetState } from '../../../utils/reset';
   import { JcropUtils } from '../../../utils/jcrop';
   import { CropUtils } from '../../../utils/crop';
-  import CropElement from './CropSelection.svelte';
+  import CropSelection from './CropSelection.svelte';
   import CropActions from './CropActions.svelte';
 
   // state
@@ -46,6 +46,6 @@
 </script>
 
 <div class="grid gap-3">
-  <CropElement />
+  <CropSelection />
   <CropActions {handleCrop} {handleCancel} />
 </div>

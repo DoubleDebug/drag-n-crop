@@ -14,6 +14,7 @@ import {
   reasonDownloadFail,
   originalFileSize,
   croppedFileSize,
+  isResourceBad,
 } from '../stores/state';
 
 export function resetState() {
@@ -32,4 +33,5 @@ export function resetState() {
   timeElapsed.set(0);
   originalFileSize.set(null);
   croppedFileSize.set(null);
+  isResourceBad.set(false);
 }

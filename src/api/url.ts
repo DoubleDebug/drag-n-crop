@@ -4,7 +4,7 @@ export namespace UrlHelper {
    */
   export function isImageUrl(url: string): boolean {
     const regex = new RegExp(
-      /https:\/\/(.*?)(.(jpg|jpeg|png|gif|bmp|webp|svg))(\?(.*))?/
+      /https:\/\/(\S*?)(.(jpg|jpeg|png|gif|bmp|webp|svg))(\?(\S*))?/
     );
     return regex.test(url);
   }
@@ -14,7 +14,7 @@ export namespace UrlHelper {
    */
   export function isVideoUrl(url: string): boolean {
     const regex = new RegExp(
-      /https:\/\/(.*?)(\.(mp4|mkv|flv|avi|mov|wmv|webm))(\?(.*))?/
+      /https:\/\/(\S*?)(\.(mp4|mkv|flv|avi|mov|wmv|webm))(\?(\S*))?/
     );
     return regex.test(url);
   }

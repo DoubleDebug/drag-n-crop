@@ -9,7 +9,7 @@
   };
 
   $: isUrlInvalid = (() => {
-    if (!$rawFileUrl) return true;
+    if (!$rawFileUrl) return false;
 
     const isValidImage = UrlHelper.isImageUrl($rawFileUrl);
     const isValidVideo = UrlHelper.isVideoUrl($rawFileUrl);

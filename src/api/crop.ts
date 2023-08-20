@@ -42,25 +42,25 @@ export namespace CropApi {
     try {
       const reader = response.body?.getReader();
       while (reader) {
-        const { done, value } = await reader.read();
-        if (done) {
-          if (!value) return badResult;
+        const { value } = await reader.read();
+        if (!value) continue;
 
-          const regex = new RegExp(/data:({.*})\\n/);
-          const textResponse = new TextDecoder().decode(value);
-          const stringifiedData = regex.exec(textResponse);
-          if (!stringifiedData || stringifiedData.length < 2) return badResult;
+        const regex = new RegExp(/data:({.*})/);
+        const decodedResponse = new TextDecoder().decode(value);
+        const matches = regex.exec(decodedResponse);
+        if (!matches || matches.length < 2) continue;
 
-          const result = JSON.parse(stringifiedData[1]);
-          if (
-            result.success === undefined ||
-            result.message === undefined ||
-            result.data === undefined
-          )
-            return badResult;
+        const result = JSON.parse(matches[1]);
 
-          return result;
-        }
+        // TODO: implement better type validation
+        if (
+          result.success === undefined ||
+          result.message === undefined ||
+          result.data === undefined
+        )
+          return badResult;
+
+        return result;
       }
     } catch (error) {
       console.log(badResult.message, JSON.stringify(error));

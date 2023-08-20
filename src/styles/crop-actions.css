@@ -1,0 +1,35 @@
+.btn-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+}
+
+.btn-container :global(:last-child) {
+  width: 200px;
+}
+
+.btn-container :global(:first-child) {
+  width: 150px;
+}
+
+@media only screen and (max-width: 768px) {
+  .btn-container {
+    display: grid;
+    width: 100%;
+    justify-content: normal;
+    gap: 10px;
+  }
+
+  .btn-container :global(:first-child) {
+    width: 100%;
+    order: 1;
+  }
+
+  .btn-container :global(:last-child) {
+    width: 100%;
+  }
+
+  .rev-order {
+    order: 2;
+  }
+}
