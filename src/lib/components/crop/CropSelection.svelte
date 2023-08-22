@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { rawFileUrl, isImage, isResourceBad } from '../../../stores/state';
+  import { rawFileUrl, isImage } from '../../../stores/state';
   import {
     CONTAINER_HEIGHT,
     ID_CROP_AREA,
@@ -11,12 +11,6 @@
   const updateHeightClass = () => {
     const { naturalHeight, naturalWidth } = CropUtils.getMediaElement($isImage);
     if (naturalWidth > naturalHeight) heightClass = '';
-  };
-  const setResourceError = (
-    event: Event & { currentTarget: EventTarget & Element }
-  ) => {
-    isResourceBad.set(true);
-    console.log('resource error', event);
   };
 
   // state
@@ -34,7 +28,6 @@
         alt="Cropping resource"
         class={`${heightClass} max-h-full aspect-auto`}
         crossorigin="anonymous"
-        on:error={setResourceError}
         on:load={updateHeightClass}
       />
     {:else}
@@ -45,7 +38,6 @@
           alt="Cropping resource"
           class="absolute top-0 left-0 w-full h-full"
           crossorigin="anonymous"
-          on:error={setResourceError}
         />
         <video
           id={ID_VIDEO_ELEMENT}
@@ -53,7 +45,6 @@
           class={`${heightClass} max-h-full aspect-auto`}
           crossorigin="anonymous"
           controls
-          on:error={setResourceError}
           on:load={updateHeightClass}
         >
           <track kind="captions" />

@@ -18,4 +18,17 @@ export namespace UrlHelper {
     );
     return regex.test(url);
   }
+
+  /**
+   * @returns file name of the resource url.
+   * @example
+   * - input: "https://i.imgur.com/mXxCzXG.png"
+   * - output: mXxCzXG.png
+   */
+  export function getFilename(url: string): string | null {
+    const regex = new RegExp(/https:\/\/\S+\/(\S+?\.\S{3})(\?(\S*))?/);
+    const matches = regex.exec(url);
+    if (!matches || matches.length < 2) return null;
+    return matches[1];
+  }
 }

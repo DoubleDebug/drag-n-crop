@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { ApiResult, CropOptions } from '../app';
+import type { ApiResult, CropOptions, UploadMediaRequest } from '../app';
 import { timeElapsed } from '../stores/state';
 
 export namespace CropApi {
@@ -68,5 +68,13 @@ export namespace CropApi {
     }
 
     return badResult;
+  }
+
+  export async function uploadMedia(
+    data: UploadMediaRequest
+  ): Promise<ApiResult> {
+    const url = `${ROOT_URL}/api/upload-media`;
+    const response = await axios.post(url, data);
+    return response.data;
   }
 }

@@ -8,7 +8,10 @@ import {
   type UploadMetadata,
 } from 'firebase/storage';
 import { FileApi } from './file';
-import type { UploadFileOptions, UploadUintArrayOptions } from '../app';
+import type {
+  FirebaseUploadFileOptions,
+  FirebaseUploadUintArrayOptions,
+} from '../app';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyCezpvLZnBEKSoAJg9MBJHyzSUg69LVVx4',
@@ -35,7 +38,7 @@ export namespace FirebaseStorageApi {
     return `${STORAGE_PATH_RAW}/${subfolder}/${newFileName}${extension}`;
   }
 
-  export function uploadFile(options: UploadFileOptions) {
+  export function uploadFile(options: FirebaseUploadFileOptions) {
     const extension = FileApi.getExtension(options.file.name)!;
     const storagePath = formatStoragePath(extension, options.isImage);
     const storageRef = ref(storage, storagePath);
@@ -55,7 +58,7 @@ export namespace FirebaseStorageApi {
     return storagePath;
   }
 
-  export function uploadUintArray(options: UploadUintArrayOptions) {
+  export function uploadUintArray(options: FirebaseUploadUintArrayOptions) {
     const extension = FileApi.getExtension(options.fileName)!;
     const storagePath = formatStoragePath(extension, options.isImage);
     const storageRef = ref(storage, storagePath);

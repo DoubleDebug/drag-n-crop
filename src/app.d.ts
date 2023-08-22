@@ -14,20 +14,24 @@ type AppStage =
 
 type UploadType = 'file' | 'url';
 
-type UploadOptions = {
+type FirebaseUploadOptions = {
   isImage: boolean;
   onSuccess?: (url: string) => unknown;
   onStateChange?: (snapshot: UploadTaskSnapshot) => unknown;
   onError?: (error: StorageError) => unknown;
 };
 
-type UploadFileOptions = UploadOptions & {
+type FirebaseUploadFileOptions = FirebaseUploadOptions & {
   file: File;
 };
 
-type UploadUintArrayOptions = UploadOptions & {
+type FirebaseUploadUintArrayOptions = FirebaseUploadOptions & {
   uintArray: Uint8Array;
   fileName: string;
+};
+
+type UploadMediaRequest = {
+  url: string;
 };
 
 type CropOptions =

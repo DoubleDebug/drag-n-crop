@@ -2,14 +2,9 @@
   import URLForm from './URLForm.svelte';
   import FileDropzone from './FileDropzone.svelte';
   import UploadTypeSwitch from './UploadTypeSwitch.svelte';
-  import {
-    isImage,
-    rawFileUrl,
-    stage,
-    uploadType,
-  } from '../../../stores/state';
+  import { rawFileUrl, uploadType } from '../../../stores/state';
   import { Button } from 'flowbite-svelte';
-  import { handleUploadFile } from '../../../utils/upload';
+  import { handleUploadFile, handleUploadFromUrl } from '../../../utils/upload';
   import { UrlHelper } from '../../../api/url';
 
   let file: File | null = null;
@@ -18,10 +13,7 @@
     if ($uploadType === 'file') {
       handleUploadFile(file);
     } else {
-      if (!$rawFileUrl) return;
-
-      isImage.set(UrlHelper.isImageUrl($rawFileUrl));
-      stage.set('ready-to-crop');
+      handleUploadFromUrl($rawFileUrl);
     }
   };
 

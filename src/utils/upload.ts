@@ -1,5 +1,7 @@
+import { CropApi } from '../api/crop';
 import { FileApi } from '../api/file';
 import { FirebaseStorageApi } from '../api/firebase-storage';
+import { UrlHelper } from '../api/url';
 import {
   isImage as state_isImage,
   originalFileSize,
@@ -10,6 +12,7 @@ import {
   stage,
   uploadPercentage,
   originalFileName,
+  isImage,
 } from '../stores/state';
 
 export function setAllowedExtensions(container: HTMLDivElement) {
@@ -57,4 +60,44 @@ export function handleUploadFile(file: any) {
     },
   });
   rawStoragePath.set(path);
+}
+
+export async function handleUploadFromUrl(url: string | null) {
+  if (!url) return;
+
+  // update state
+  stage.set('uploading');
+  isImage.set(UrlHelper.isImageUrl(url));
+  originalFileName.set(UrlHelper.getFilename(url));
+
+  // mimic upload progress
+  let isUploadDone = false;
+  setTimeout(() => {
+    if (!isUploadDone) {
+      uploadPercentage.set(50);
+    }
+  }, 1000);
+
+  // send upload request to server
+  const uploadResponse = await CropApi.uploadMedia({ url }).catch((error) => {
+    console.log('Uploading media error:', JSON.stringify(error));
+    reasonUploadFail.set(
+      'There was an error while uploading the media file to the server.'
+    );
+  });
+  isUploadDone = true;
+
+  // handle response
+  if (uploadResponse && uploadResponse.success) {
+    stage.set('ready-to-crop');
+    const storagePath = uploadResponse.data;
+    const downloadUrl = await FirebaseStorageApi.getDownloadUrl(storagePath);
+    rawFileUrl.set(downloadUrl);
+    FileApi.getFileSizeFromUrl(downloadUrl).then((size) =>
+      originalFileSize.set(size)
+    );
+  } else {
+    stage.set('failed-to-upload');
+    if (uploadResponse) reasonUploadFail.set(uploadResponse.message);
+  }
 }

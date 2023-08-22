@@ -1,8 +1,7 @@
 <script lang="ts">
   import LoadingLabel from '../LoadingLabel.svelte';
-  import InfoIcon from '$lib/icons/InfoIcon.svelte';
-  import { Checkbox, Button, Spinner, Tooltip } from 'flowbite-svelte';
-  import { stage, isImage, isResourceBad } from '../../../stores/state';
+  import { Checkbox, Button, Spinner } from 'flowbite-svelte';
+  import { stage, isImage } from '../../../stores/state';
   import { ID_VIDEO_ELEMENT } from '../../../utils/constant';
 
   // props
@@ -31,19 +30,6 @@
         text={`Your ${$isImage ? 'image' : 'video'} is being cropped`}
       />
     </span>
-  {:else if $isResourceBad}
-    <div class="flex items-center gap-2 text-red-400">
-      There's an issue with the selected {$isImage ? 'image' : 'video'}.
-      <span id="info-icon"><InfoIcon /></span>
-      <Tooltip
-        triggeredBy="[id='info-icon']"
-        placement="bottom"
-        class="text-sm p-1 max-w-sm"
-      >
-        This application does not have access to this image/video. Try
-        downloading it to your device, and then uploading it here.
-      </Tooltip>
-    </div>
   {:else if !$isImage}
     <span class="rev-order">
       <Checkbox checked={showControls} on:change={toggleControls}>
@@ -62,7 +48,7 @@
       Cancel
     </Button>
     <Button
-      disabled={$stage === 'cropping' || $isResourceBad}
+      disabled={$stage === 'cropping'}
       on:click={handleCrop}
       class="max-h-[42px]"
     >
