@@ -16,6 +16,14 @@
 </div>
 
 <style>
+  .subheading {
+    color: #484e57;
+  }
+
+  :global(.dark) .subheading {
+    color: white;
+  }
+
   @media only screen and (max-width: 640px) {
     .heading {
       font-size: 3.75rem;

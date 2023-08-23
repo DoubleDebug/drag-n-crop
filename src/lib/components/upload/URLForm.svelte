@@ -25,6 +25,7 @@
       <span class="flex mb-1 ml-2">URL:</span>
       <div class="grid md:flex gap-2">
         <Input
+          id="input-url"
           type="text"
           placeholder="https://www.example.com/my-image.jpg"
           required

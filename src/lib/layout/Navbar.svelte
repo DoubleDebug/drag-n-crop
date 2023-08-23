@@ -13,7 +13,7 @@
       </span>
     </div>
   </NavBrand>
-  <DarkMode title="Dark mode" />
+  <DarkMode title="Dark mode" id="btn-switch-theme" />
 </Navbar>
 
 <style>

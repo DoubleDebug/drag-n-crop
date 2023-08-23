@@ -62,7 +62,36 @@
 
 .group-btn {
   min-width: 100px;
+  border: 1px solid #d1d5db;
+}
+
+.dark .group-btn {
   border: 1px solid #4b5563;
+}
+
+#btn-switch-theme {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 4px;
+}
+
+#btn-switch-theme:hover {
+  background: #f8f9fa;
+}
+
+.dark #btn-switch-theme {
+  background: #1c2740;
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 3px 4px;
+}
+
+.dark #btn-switch-theme:hover {
+  background: #273758;
+}
+
+.shadow-sm[role='group'] {
+  box-shadow: none;
+}
+
+.dark button.bg-white:hover {
+  border: 1px solid #b6b6b6 !important;
 }
 
 @media only screen and (max-width: 768px) {
@@ -98,6 +127,10 @@
 
   .steps-container {
     max-width: 320px;
+  }
+
+  #input-url::placeholder {
+    font-size: 0.75rem;
   }
 }
 
