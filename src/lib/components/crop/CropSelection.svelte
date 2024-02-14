@@ -1,48 +1,48 @@
 <script lang="ts">
-  import { rawFileUrl, isImage } from '../../../stores/state';
-  import {
-    CONTAINER_HEIGHT,
-    ID_CROP_AREA,
-    ID_VIDEO_ELEMENT,
-  } from '../../../utils/constant';
-  import { CropUtils } from '../../../utils/crop';
+  import 'cropperjs/dist/cropper.css';
+  import { onMount } from 'svelte';
+  import { CropperUtils } from '../../../utils/cropper';
+  import { rawFileUrl, isImage, cropper } from '../../../stores/state';
+  import { ID_CROP_AREA, ID_VIDEO_ELEMENT } from '../../../utils/constant';
 
-  // handlers
+  let heightClass = 'h-full';
   const updateHeightClass = () => {
-    const { naturalHeight, naturalWidth } = CropUtils.getMediaElement($isImage);
+    if (!$cropper) return;
+    const { naturalHeight, naturalWidth } = $cropper.getImageData();
     if (naturalWidth > naturalHeight) heightClass = '';
   };
 
-  // state
-  let heightClass = 'h-full';
+  onMount(() => {
+    const videoEl = document.getElementById(ID_VIDEO_ELEMENT);
+    const imageEl = document.getElementById(ID_CROP_AREA);
+    videoEl?.addEventListener('loadeddata', CropperUtils.initCropper);
+    imageEl?.addEventListener('load', CropperUtils.initCropper);
+  });
 </script>
 
-<div
-  class={`flex justify-center w-full md:w-[800px] h-[${CONTAINER_HEIGHT}px] bshadow`}
->
+<div class="flex justify-center max-w-full bshadow">
   {#if $rawFileUrl}
     {#if $isImage}
-      <img
-        id={ID_CROP_AREA}
-        src={$rawFileUrl}
-        alt="Cropping resource"
-        class={`${heightClass} max-h-full aspect-auto`}
-        crossorigin="anonymous"
-        on:load={updateHeightClass}
-      />
-    {:else}
-      <div class="relative">
+      <div class="block max-w-full">
         <img
           id={ID_CROP_AREA}
-          src={'transparent.png'}
+          src={$rawFileUrl}
           alt="Cropping resource"
-          class="absolute top-0 left-0 w-full h-full"
+          class="block max-w-full max-h-[100vh]"
           crossorigin="anonymous"
+          on:load={updateHeightClass}
+        />
+      </div>
+    {:else}
+      <div class="relative">
+        <canvas
+          id={ID_CROP_AREA}
+          class="absolute inset-0 w-full h-full block max-w-full max-h-[100vh]"
         />
         <video
           id={ID_VIDEO_ELEMENT}
           src={$rawFileUrl}
-          class={`${heightClass} max-h-full aspect-auto`}
+          class={`${heightClass} max-h-[100vh] aspect-auto`}
           crossorigin="anonymous"
           controls
           on:load={updateHeightClass}

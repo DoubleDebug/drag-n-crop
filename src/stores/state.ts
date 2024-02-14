@@ -1,6 +1,7 @@
-import { derived, writable } from 'svelte/store';
+import type Cropper from 'cropperjs';
 import { tweened } from 'svelte/motion';
 import { cubicOut } from 'svelte/easing';
+import { derived, writable } from 'svelte/store';
 import type { AppStage, FileInvalidReason, UploadType } from '../app';
 
 // application state
@@ -20,7 +21,7 @@ export const reasonInvalid = writable<FileInvalidReason | null>(null);
 export const reasonUploadFail = writable<string | null>(null);
 export const reasonCropFail = writable<string | null>(null);
 export const reasonDownloadFail = writable<string | null>(null);
-export const jcrop = writable<any>(null);
+export const cropper = writable<Cropper | null>(null);
 export const timeElapsed = writable<number>(0); // in seconds
 export const originalFileSize = writable<string | null>(null); // in megabytes
 export const croppedFileSize = writable<string | null>(null); // in megabytes

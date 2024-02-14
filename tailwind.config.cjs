@@ -8,6 +8,9 @@ const config = {
   plugins: [require('flowbite/plugin')],
   theme: {
     extend: {
+      screens: {
+        mdl: '870px',
+      },
       colors: {
         primary: {
           50: '#fff7ed',

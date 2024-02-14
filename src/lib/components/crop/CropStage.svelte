@@ -1,27 +1,20 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte';
+  import { onDestroy } from 'svelte';
   import {
     isImage,
-    jcrop,
+    cropper,
     rawFileUrl,
     rawStoragePath,
     uploadType,
   } from '../../../stores/state';
   import { FirebaseStorageApi } from '../../../api/firebase-storage';
   import { resetState } from '../../../utils/reset';
-  import { JcropUtils } from '../../../utils/jcrop';
   import { CropUtils } from '../../../utils/crop';
   import CropSelection from './CropSelection.svelte';
   import CropActions from './CropActions.svelte';
 
-  // state
   let timeoutId: any;
 
-  // lifecycle
-  onMount(() => {
-    setInterval(() => JcropUtils.validateJcropPlacement($jcrop), 5000);
-    timeoutId = setTimeout(() => JcropUtils.attachJcrop($isImage), 500);
-  });
   onDestroy(() => {
     clearTimeout(timeoutId);
   });
@@ -29,7 +22,7 @@
   // handlers
   const handleCrop = () => {
     let options = {
-      jcropRef: $jcrop,
+      cropper: $cropper,
       isImage: $isImage,
       uploadType: $uploadType,
       storagePath: $rawStoragePath || '',
@@ -45,7 +38,7 @@
   };
 </script>
 
-<div class="grid gap-3">
+<div class="grid gap-3 mdl:w-[600px] lg:w-[800px]">
   <CropSelection />
   <CropActions {handleCrop} {handleCancel} />
 </div>

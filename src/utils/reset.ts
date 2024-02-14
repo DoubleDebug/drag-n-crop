@@ -8,7 +8,7 @@ import {
   uploadPercentage,
   reasonInvalid,
   reasonUploadFail,
-  jcrop,
+  cropper,
   timeElapsed,
   reasonCropFail,
   reasonDownloadFail,
@@ -28,7 +28,7 @@ export function resetState() {
   reasonUploadFail.set(null);
   reasonCropFail.set(null);
   reasonDownloadFail.set(null);
-  jcrop.set(null);
+  cropper.set(null);
   timeElapsed.set(0);
   originalFileSize.set(null);
   croppedFileSize.set(null);

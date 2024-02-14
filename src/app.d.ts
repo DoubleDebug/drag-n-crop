@@ -1,3 +1,4 @@
+import type Cropper from 'cropperjs';
 import type { StorageError, UploadTaskSnapshot } from 'firebase/storage';
 
 // Types
@@ -73,29 +74,21 @@ type FileValidationResult = {
   reason: FileInvalidReason | null;
 };
 
-type HandleCropOptions =
-  | {
-      jcropRef: any;
-      isImage: boolean;
-      uploadType: 'file';
-      storagePath: string;
-    }
-  | {
-      jcropRef: any;
-      isImage: boolean;
-      uploadType: 'url';
-      url: string;
-    };
+type BaseCropOptions = {
+  cropper: Cropper | null;
+  isImage: boolean;
+};
+
+type HandleCropOptions = BaseCropOptions &
+  (
+    | {
+        uploadType: 'file';
+        storagePath: string;
+      }
+    | {
+        uploadType: 'url';
+        url: string;
+      }
+  );
 
 type FileInvalidReason = 'invalid-file-format' | 'file-too-large';
-
-// JCrop
-declare global {
-  const Jcrop = {
-    Rect: {
-      create: (x: number, y: number, w: number, h: number): any => {},
-    },
-    attach: (id: string, options?: any): any => {},
-    newWidget: (rect: any, options?: any): any => {},
-  };
-}

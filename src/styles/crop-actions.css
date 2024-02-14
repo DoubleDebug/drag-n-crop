@@ -33,3 +33,13 @@
     order: 2;
   }
 }
+
+@media only screen and (min-width: 768px) and (max-width: 870px) {
+  .btn-container :global(:first-child) {
+    width: 75px;
+  }
+
+  .btn-container :global(:last-child) {
+    width: 125px;
+  }
+}

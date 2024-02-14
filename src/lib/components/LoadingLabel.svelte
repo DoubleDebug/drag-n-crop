@@ -18,6 +18,6 @@
   });
 </script>
 
-<span>
+<span class="whitespace-nowrap">
   {text}{dots.join('')}
 </span>

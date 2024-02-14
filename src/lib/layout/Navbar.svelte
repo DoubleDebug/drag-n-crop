@@ -25,10 +25,4 @@
   .logo-black {
     content: url('/public/favicon-black.png');
   }
-
-  @media only screen and (max-width: 640px) {
-    .label-home {
-      display: none;
-    }
-  }
 </style>

@@ -1,3 +1,4 @@
+import type Cropper from 'cropperjs';
 import { CropApi } from '../api/crop';
 import { FileApi } from '../api/file';
 import { FirebaseStorageApi } from '../api/firebase-storage';
@@ -9,11 +10,12 @@ import {
   reasonCropFail,
   stage,
 } from '../stores/state';
-import { ID_CROP_AREA, ID_VIDEO_ELEMENT } from './constant';
+import { ID_VIDEO_ELEMENT } from './constant';
 
 export namespace CropUtils {
   export async function handleCrop(options: HandleCropOptions) {
-    const { jcropRef, isImage, uploadType } = options;
+    const { cropper, isImage, uploadType } = options;
+    if (!cropper) return;
     if (
       (uploadType === 'file' && !options.storagePath) ||
       (uploadType === 'url' && !options.url)
@@ -27,34 +29,29 @@ export namespace CropUtils {
     stage.set('cropping');
 
     // calculate real coordinates
-    const { mediaElement, naturalWidth, naturalHeight } =
-      getMediaElement(isImage);
-    if (!mediaElement) {
-      stage.set('failed-to-crop');
-      reasonCropFail.set('Failed to read the cropping coordinates.');
-      return;
-    }
-    const widthPercentage =
-      mediaElement.getBoundingClientRect().width / naturalWidth;
-    const heightPercentage =
-      mediaElement.getBoundingClientRect().height / naturalHeight;
-    let width = Math.round(jcropRef.active.pos.w / widthPercentage);
-    let height = Math.round(jcropRef.active.pos.h / heightPercentage);
-    const x = Math.round(jcropRef.active.pos.x / widthPercentage);
-    const y = Math.round(jcropRef.active.pos.y / heightPercentage);
+    const { naturalWidth, naturalHeight, clientWidth, clientHeight } =
+      getMediaDimensions(isImage, cropper);
+    const widthPercentage = clientWidth / naturalWidth;
+    const heightPercentage = clientHeight / naturalHeight;
+    const { width, height, left, top } = cropper.getCropBoxData();
+    let w = Math.round(width / widthPercentage);
+    let h = Math.round(height / heightPercentage);
+    const x = Math.round(left / widthPercentage);
+    const y = Math.round(top / heightPercentage);
 
-    if (width + x > naturalWidth) {
-      width = naturalWidth - x;
+    // edge case: overflowing width/height
+    if (w + x > naturalWidth) {
+      w = naturalWidth - x;
     }
-    if (height + y > naturalHeight) {
-      height = naturalHeight - y;
+    if (h + y > naturalHeight) {
+      h = naturalHeight - y;
     }
 
     // prepare data
     let commonData: Partial<CropOptions> = {
       dimensions: {
         top_left_point: { x, y },
-        size: { width, height },
+        size: { width: w, height: h },
       },
     };
     if (uploadType === 'file') {
@@ -109,32 +106,25 @@ export namespace CropUtils {
     }
   }
 
-  export function getMediaElement(isImage: boolean) {
-    const DEFAULT_RESULT = {
-      mediaElement: null,
-      naturalWidth: 0,
-      naturalHeight: 0,
-    };
-
-    let mediaElement, naturalWidth, naturalHeight;
+  export function getMediaDimensions(isImage: boolean, cropper: Cropper) {
     if (isImage) {
-      mediaElement = document.getElementById(ID_CROP_AREA) as HTMLImageElement;
-      if (!mediaElement) return DEFAULT_RESULT;
-      naturalWidth = mediaElement.naturalWidth;
-      naturalHeight = mediaElement.naturalHeight;
+      const imageData = cropper.getImageData();
+      return {
+        naturalWidth: imageData.naturalWidth,
+        naturalHeight: imageData.naturalHeight,
+        clientWidth: imageData.width,
+        clientHeight: imageData.height,
+      };
     } else {
-      mediaElement = document.getElementById(
+      const videoElement = document.getElementById(
         ID_VIDEO_ELEMENT
       ) as HTMLVideoElement;
-      if (!mediaElement) return DEFAULT_RESULT;
-      naturalWidth = mediaElement.videoWidth;
-      naturalHeight = mediaElement.videoHeight;
+      return {
+        naturalWidth: videoElement.videoWidth,
+        naturalHeight: videoElement.videoHeight,
+        clientWidth: videoElement.clientWidth,
+        clientHeight: videoElement.clientHeight,
+      };
     }
-
-    return {
-      mediaElement,
-      naturalWidth,
-      naturalHeight,
-    };
   }
 }

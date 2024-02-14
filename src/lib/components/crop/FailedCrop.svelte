@@ -1,6 +1,11 @@
 <script>
   import { Accordion, AccordionItem, Button, Card } from 'flowbite-svelte';
-  import { isImage, reasonCropFail, stage } from '../../../stores/state';
+  import {
+    isImage,
+    rawFileUrl,
+    reasonCropFail,
+    stage,
+  } from '../../../stores/state';
   import InfoIcon from '$lib/icons/InfoIcon.svelte';
 </script>
 
@@ -20,7 +25,10 @@
       </Accordion>
       <Button
         class="ml-auto w-full lg:w-40"
-        on:click={() => stage.set('ready-to-upload')}
+        on:click={() => {
+          stage.set('ready-to-upload');
+          rawFileUrl.set(null);
+        }}
       >
         Try again
       </Button>
